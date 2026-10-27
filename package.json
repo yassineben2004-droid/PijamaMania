@@ -1,0 +1,9 @@
+{
+  "name": "pijamamania",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PijamaMania - Coperta Squalo Indossabile, sito con checkout Stripe integrato",
+  "dependencies": {
+    "stripe": "^17.0.0"
+  }
+}

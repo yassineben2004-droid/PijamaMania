@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Coperta Squalo Indossabile — PijamaMania</title>
+<meta name="description" content="La coperta squalo indossabile: infili i piedi nella coda e ti avvolgi. Pile flanellato ultra morbido, 4 taglie da bambino ad adulto. Spedizione gratuita in Italia.">
+<style>
+:root{
+  --abisso:#07152e;
+  --blu:#0d2b55;
+  --squalo:#2fb6ff;
+  --schiuma:#eaf4ff;
+  --grigio:#7e93b0;
+  --ok:#25c08b;
+  --oro:#ffc94d;
+  --radius:18px;
+  --font:'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--abisso);color:var(--schiuma);line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+.topbar{background:var(--squalo);color:var(--abisso);text-align:center;font-size:13px;font-weight:700;letter-spacing:.3px;padding:9px 16px}
+header{display:flex;align-items:center;justify-content:center;padding:17px 16px;border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:20;background:rgba(7,21,46,.93);backdrop-filter:blur(10px)}
+.logo{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.logo span{color:var(--squalo)}
+
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}
+section{padding:42px 0}
+
+/* ---------- prodotto ---------- */
+.hero{display:grid;gap:28px}
+@media(min-width:900px){.hero{grid-template-columns:1fr 1fr;align-items:start;gap:48px}}
+.gallery{display:grid;gap:10px}
+.shot{position:relative;aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,#113463,#0a1f3e)}
+.shot::after{content:attr(data-ph);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(234,244,255,.26);font-size:11.5px;letter-spacing:1.6px;font-weight:700;text-align:center;padding:10px}
+.shot img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.thumbs .shot{border-radius:11px}
+
+.badge{display:inline-block;background:rgba(47,182,255,.14);color:var(--squalo);font-size:12px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:999px;margin-bottom:14px}
+h1{font-size:33px;line-height:1.1;letter-spacing:-1px;font-weight:800;margin-bottom:12px}
+@media(min-width:900px){h1{font-size:40px}}
+.sub{color:var(--grigio);font-size:16px;margin-bottom:20px}
+.plus-rapidi{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:22px}
+.chip{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:7px 12px;font-size:13px}
+
+.prezzo{display:flex;align-items:baseline;gap:12px;margin-bottom:4px}
+.prezzo .ora{font-size:33px;font-weight:800;letter-spacing:-1px}
+.prezzo .prima{font-size:17px;color:var(--grigio);text-decoration:line-through}
+.prezzo .off{background:#ff4d5e;color:#fff;font-size:12px;font-weight:800;padding:4px 9px;border-radius:7px}
+.spediz{font-size:13px;color:var(--ok);font-weight:600;margin-bottom:24px}
+
+.campo{margin-bottom:20px}
+.campo label{display:block;font-size:12.5px;font-weight:700;letter-spacing:.7px;margin-bottom:10px;color:var(--grigio)}
+.campo label a{float:right;color:var(--squalo);text-decoration:underline;font-weight:600;letter-spacing:0}
+
+.taglie{display:grid;gap:8px}
+.taglia{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  border:1.5px solid rgba(255,255,255,.14);background:transparent;color:var(--schiuma);
+  padding:14px 15px;border-radius:12px;cursor:pointer;text-align:left;
+  font-family:var(--font);transition:.15s;
+}
+.taglia:hover{border-color:rgba(47,182,255,.45)}
+.taglia.on{border-color:var(--squalo);background:rgba(47,182,255,.09)}
+.taglia .nome{font-weight:700;font-size:15px}
+.taglia .misura{font-size:12.5px;color:var(--grigio);margin-top:2px}
+.taglia .p{font-weight:800;font-size:16px;white-space:nowrap}
+
+.qta-riga{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.qta{display:flex;align-items:center;border:1.5px solid rgba(255,255,255,.14);border-radius:11px;overflow:hidden}
+.qta button{background:transparent;border:0;color:var(--schiuma);font-size:20px;width:46px;height:46px;cursor:pointer}
+.qta button:hover{background:rgba(255,255,255,.06)}
+.qta span{width:44px;text-align:center;font-weight:700;font-size:16px}
+.sconto-hint{font-size:13px;color:var(--grigio)}
+.sconto-hint b{color:var(--ok)}
+
+.risparmio{display:none;background:rgba(37,192,139,.12);border:1px solid rgba(37,192,139,.3);color:var(--ok);border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:600;margin-bottom:16px}
+.risparmio.on{display:block}
+
+.cta{display:block;width:100%;background:var(--squalo);color:var(--abisso);border:0;border-radius:13px;padding:19px;font-size:17px;font-weight:800;letter-spacing:.3px;cursor:pointer;text-align:center;box-shadow:0 10px 30px rgba(47,182,255,.22);transition:.15s;font-family:var(--font)}
+.cta:hover{transform:translateY(-1px)}
+.rassicura{display:flex;flex-wrap:wrap;gap:14px;margin-top:16px;font-size:12.5px;color:var(--grigio)}
+.rassicura div::before{content:"✓ ";color:var(--ok);font-weight:800}
+
+/* ---------- blocchi descrizione ---------- */
+.desc{border-top:1px solid rgba(255,255,255,.08);background:#0a1c38}
+.blocco{display:grid;gap:22px;align-items:center;margin-bottom:44px}
+.blocco:last-child{margin-bottom:0}
+@media(min-width:800px){
+  .blocco{grid-template-columns:1fr 1fr;gap:44px}
+  .blocco.inv .media{order:2}
+}
+.media{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,#113463,#0a1f3e)}
+.media::after{content:attr(data-ph);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(234,244,255,.26);font-size:11.5px;letter-spacing:1.6px;font-weight:700;text-align:center;padding:14px}
+.media img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+.blocco h3{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
+.blocco p{color:var(--grigio);font-size:15.5px}
+
+h2{font-size:26px;font-weight:800;letter-spacing:-.6px;margin-bottom:22px}
+
+/* ---------- tabella taglie ---------- */
+.tabella{width:100%;border-collapse:collapse;font-size:14.5px}
+.tabella th,.tabella td{text-align:left;padding:13px 10px;border-bottom:1px solid rgba(255,255,255,.1)}
+.tabella th{font-size:12px;letter-spacing:.8px;color:var(--grigio);font-weight:700}
+.tabella td:first-child{font-weight:700}
+.nota-taglie{margin-top:14px;font-size:13.5px;color:var(--grigio)}
+
+/* ---------- faq ---------- */
+details{border-bottom:1px solid rgba(255,255,255,.1);padding:16px 0}
+summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--squalo);font-size:20px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--grigio);font-size:14.5px;margin-top:10px}
+
+footer{border-top:1px solid rgba(255,255,255,.08);padding:30px 0 60px;font-size:13px;color:var(--grigio)}
+footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
+.ragione{margin-top:14px;font-size:12px;line-height:1.75}
+
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(7,21,46,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.1);padding:12px 16px calc(12px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;transform:translateY(130%);transition:.25s}
+.sticky.on{transform:translateY(0)}
+.sticky .p{font-size:18px;font-weight:800;white-space:nowrap}
+.sticky .cta{padding:15px 20px;font-size:15px}
+@media(min-width:900px){.sticky{display:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar">SPEDIZIONE GRATUITA IN ITALIA · RESO ENTRO 14 GIORNI</div>
+
+<header><img src="img/logo.png" alt="PijamaMania" style="height:40px;width:auto"></header>
+
+<div class="wrap">
+  <section class="hero">
+
+    <div class="gallery">
+      <div class="shot" data-ph="FOTO PRINCIPALE &middot; img/squalo-1.jpg">
+        <img src="img/squalo-1.jpg" alt="Coperta squalo indossabile" onerror="this.style.display='none'">
+      </div>
+      <div class="thumbs">
+        <div class="shot" data-ph="2"><img src="img/squalo-2.jpg" alt="" onerror="this.style.display='none'"></div>
+        <div class="shot" data-ph="3"><img src="img/squalo-3.jpg" alt="" onerror="this.style.display='none'"></div>
+        <div class="shot" data-ph="4"><img src="img/squalo-4.jpg" alt="" onerror="this.style.display='none'"></div>
+        <div class="shot" data-ph="5"><img src="img/squalo-5.jpg" alt="" onerror="this.style.display='none'"></div>
+        <div class="shot" data-ph="6"><img src="img/squalo-6.jpg" alt="" onerror="this.style.display='none'"></div>
+      </div>
+    </div>
+
+    <div class="info">
+      <span class="badge">PIÙ VENDUTO</span>
+      <h1>Coperta Squalo Indossabile</h1>
+      <p class="sub">Infili i piedi dentro la coda, ti tiri su il resto e sei dentro uno squalo. Metà coperta, metà sacco a pelo, pile flanellato che non pizzica.</p>
+
+      <div class="plus-rapidi">
+        <div class="chip">☁️ Pile ultra morbido</div>
+        <div class="chip">🧼 Lavabile in lavatrice</div>
+        <div class="chip">🎁 Idea regalo</div>
+      </div>
+
+      <div class="prezzo">
+        <div class="ora" id="prezzoOra">39,90 €</div>
+        <div class="prima" id="prezzoPrima">69,90 €</div>
+        <div class="off" id="percOff">-43%</div>
+      </div>
+      <div class="spediz">Spedizione gratuita in Italia</div>
+
+      <div class="campo">
+        <label>TAGLIA <a href="#taglie-tabella">Guida alle taglie</a></label>
+        <div class="taglie" id="taglie"></div>
+      </div>
+
+      <div class="campo">
+        <label>QUANTITÀ</label>
+        <div class="qta-riga">
+          <div class="qta">
+            <button id="meno" type="button">−</button>
+            <span id="q">1</span>
+            <button id="piu" type="button">+</button>
+          </div>
+          <div class="sconto-hint">2 pezzi <b>-5%</b> · da 3 pezzi <b>-10%</b></div>
+        </div>
+      </div>
+
+      <div class="risparmio" id="risparmio"></div>
+
+      <button class="cta" id="compra" type="button">Acquista ora — 39,90 €</button>
+
+      <div class="rassicura">
+        <div>Pagamento sicuro</div>
+        <div>Carte, Apple Pay, Google Pay</div>
+        <div>Assistenza in italiano</div>
+      </div>
+    </div>
+
+  </section>
+</div>
+
+<!-- ---------- descrizione ---------- -->
+<section class="desc">
+  <div class="wrap">
+
+    <div class="blocco">
+      <div class="media" data-ph="FOTO: PERSONA AVVOLTA SUL DIVANO &middot; img/desc-1.jpg">
+        <img src="img/desc-1.jpg" alt="" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <h3>Entri dalla coda e sparisci</h3>
+        <p>Non è una coperta da tenere su con le mani: i piedi entrano nella pinna caudale e il corpo scivola dentro la sacca. Da lì in poi puoi muoverti sul divano, allungare le gambe, girarti — lo squalo resta addosso.</p>
+      </div>
+    </div>
+
+    <div class="blocco inv">
+      <div class="media" data-ph="GIF: SI INFILA DENTRO LA CODA &middot; img/desc-2.gif">
+        <img src="img/desc-2.gif" alt="" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <h3>Pile flanellato, caldo dal primo secondo</h3>
+        <p>Interno in flanella di pile spazzolata: trattiene il calore senza pesare e non dà quella sensazione ruvida dei pile economici. Sta bene anche sulla pelle nuda, che è il vero test.</p>
+      </div>
+    </div>
+
+    <div class="blocco">
+      <div class="media" data-ph="GIF: REAZIONE / GRUPPO CHE RIDE &middot; img/desc-3.gif">
+        <img src="img/desc-3.gif" alt="" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <h3>Il regalo che nessuno si aspetta</h3>
+        <p>Compleanni, Natale, Secret Santa fra colleghi: è il pacco che blocca la stanza per cinque minuti. E a differenza di quasi tutti i regali buffi, poi viene usato davvero tutte le sere.</p>
+      </div>
+    </div>
+
+    <div class="blocco inv">
+      <div class="media" data-ph="FOTO: DETTAGLIO TESSUTO / LAVAGGIO &middot; img/desc-4.jpg">
+        <img src="img/desc-4.jpg" alt="" onerror="this.style.display='none'">
+      </div>
+      <div>
+        <h3>In lavatrice e via</h3>
+        <p>Lavaggio in lavatrice a ciclo delicato con acqua fredda, asciugatrice a bassa temperatura. Niente candeggina, niente ferro da stiro: il pile mantiene morbidezza e forma lavaggio dopo lavaggio.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ---------- taglie ---------- -->
+<section class="wrap" id="taglie-tabella">
+  <h2>Guida alle taglie</h2>
+  <table class="tabella">
+    <thead>
+      <tr><th>TAGLIA</th><th>ETÀ</th><th>ALTEZZA</th><th>PREZZO</th></tr>
+    </thead>
+    <tbody id="tabellaTaglie"></tbody>
+  </table>
+  <p class="nota-taglie">La taglia si sceglie in base all'altezza, non alla corporatura: il modello è largo per costruzione. Se sei a cavallo fra due misure, prendi la più grande — dentro ci devi stare comodo, non attillato.</p>
+</section>
+
+<!-- ---------- recensioni ---------- -->
+<section class="wrap" style="border-top:1px solid rgba(255,255,255,.08);padding-top:42px">
+  <h2>Cosa ne pensano i clienti</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:42px;align-items:start">
+    <div>
+      <div style="font-size:48px;font-weight:800;margin-bottom:4px">4.9★</div>
+      <div style="color:#7e93b0;font-size:15px;margin-bottom:20px">Su 100+ recensioni verificate</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="color:#ffc94d;font-size:18px">★★★★★</div>
+          <div style="color:#7e93b0;font-size:13px">85 clienti</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="color:#ffc94d;font-size:18px">★★★★☆</div>
+          <div style="color:#7e93b0;font-size:13px">12 clienti</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="color:#ffc94d;font-size:18px">★★★☆☆</div>
+          <div style="color:#7e93b0;font-size:13px">3 clienti</div>
+        </div>
+      </div>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:12px">
+        <div style="color:#ffc94d;margin-bottom:6px">★★★★★</div>
+        <div style="font-size:14px;line-height:1.5;color:#eaf4ff">«Morbidissima, non credevo che fosse così comoda. Mio figlio non la toglie nemmeno la notte.»</div>
+        <div style="font-size:12px;color:#7e93b0;margin-top:10px">— Francesca M., verificato</div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:12px">
+        <div style="color:#ffc94d;margin-bottom:6px">★★★★★</div>
+        <div style="font-size:14px;line-height:1.5;color:#eaf4ff">«Perfetto come regalo. Tutti ridevano, poi se l'è messa e non l'ha più tolta per tutta la sera.»</div>
+        <div style="font-size:12px;color:#7e93b0;margin-top:10px">— Marco R., verificato</div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:12px">
+        <div style="color:#ffc94d;margin-bottom:6px">★★★★★</div>
+        <div style="font-size:14px;line-height:1.5;color:#eaf4ff">«Non graffina, non pizzica, il tessuto di qualità si vede. Consigliata, davvero.»</div>
+        <div style="font-size:12px;color:#7e93b0;margin-top:10px">— Elena T., verificato</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ---------- faq ---------- -->
+<section class="wrap">
+  <h2>Domande frequenti</h2>
+  <details open><summary>Come si indossa esattamente?</summary><p>Ti siedi, infili i piedi nell'apertura della coda e tiri su il corpo della coperta fino a dove vuoi. Puoi lasciarla all'altezza della vita o tirarla fino alle spalle.</p></details>
+  <details><summary>Di che materiale è fatta?</summary><p>Pile flanellato ultra morbido, lo stesso tipo di tessuto delle coperte invernali di qualità. Leggero da indossare ma caldo.</p></details>
+  <details><summary>Va bene anche per i bambini?</summary><p>Sì, la taglia Baby Shark parte dai 2 anni. Per i più piccoli consigliamo comunque la presenza di un adulto durante l'uso.</p></details>
+  <details><summary>Si può lavare?</summary><p>Sì, lavatrice a ciclo delicato con acqua fredda e asciugatrice a bassa temperatura. Evita candeggina e ferro da stiro.</p></details>
+  <details><summary>Si può usare all'aperto?</summary><p>È pensata per l'uso in casa, ma funziona benissimo anche in campeggio o per una serata in terrazza, purché su superfici asciutte.</p></details>
+  <details><summary>Quanto ci mette ad arrivare?</summary><p>Preparazione dell'ordine in 1-2 giorni lavorativi, poi 7-12 giorni lavorativi per la consegna in Italia. Ricevi il codice di tracciamento via email appena il pacco parte.</p></details>
+  <details><summary>Posso restituirla?</summary><p>Hai 14 giorni dalla consegna per esercitare il diritto di recesso. Il prodotto va restituito integro e nella confezione originale.</p></details>
+</section>
+
+<footer class="wrap">
+  <a href="termini.html">Termini e condizioni</a>
+  <a href="privacy.html">Privacy</a>
+  <a href="spedizioni.html">Spedizioni e resi</a>
+  <a href="contatti.html">Contatti</a>
+  <div class="ragione">
+    PijamaMania · Email: pijamamania.it@gmail.com<br>
+    Prezzi IVA inclusa. I colori possono variare leggermente rispetto alle foto a causa delle impostazioni dello schermo.
+  </div>
+</footer>
+
+<div class="sticky" id="sticky">
+  <div class="p" id="prezzoSticky">39,90 €</div>
+  <button class="cta" id="compra2" type="button">Acquista ora</button>
+</div>
+
+<script>
+/* I prezzi qui servono solo a mostrare i numeri a schermo.
+   Quelli che contano stanno in api/create-payment-intent.js (lato server). */
+const VARIANTI = [
+  { id:'baby',   nome:'Baby Shark',   eta:'2-5 anni',   altezza:'84-150 cm',  prezzo:39.90, prima:69.90 },
+  { id:'junior', nome:'Junior Shark', eta:'6-10 anni',  altezza:'152-170 cm', prezzo:39.90, prima:69.90 },
+  { id:'teen',   nome:'Teen Shark',   eta:'11-15 anni', altezza:'173-190 cm', prezzo:39.90, prima:69.90 },
+  { id:'mega',   nome:'Mega Shark',   eta:'16+ anni',   altezza:'193-211 cm', prezzo:39.90, prima:69.90 }
+];
+
+let scelta = VARIANTI[3];   // Mega Shark preselezionato: è la taglia adulto
+let qta = 1;
+
+const fmt = n => n.toFixed(2).replace('.', ',') + ' €';
+const sconto = q => q >= 3 ? 0.10 : (q === 2 ? 0.05 : 0);
+
+/* elenco taglie */
+document.getElementById('taglie').innerHTML = VARIANTI.map(v => `
+  <button type="button" class="taglia${v.id === scelta.id ? ' on' : ''}" data-id="${v.id}">
+    <span>
+      <span class="nome">${v.nome}</span>
+      <span class="misura">${v.eta} · ${v.altezza}</span>
+    </span>
+    <span class="p">${fmt(v.prezzo)}</span>
+  </button>`).join('');
+
+/* tabella taglie */
+document.getElementById('tabellaTaglie').innerHTML = VARIANTI.map(v => `
+  <tr><td>${v.nome}</td><td>${v.eta}</td><td>${v.altezza}</td><td>${fmt(v.prezzo)}</td></tr>`).join('');
+
+function aggiorna(){
+  const s = sconto(qta);
+  const pieno = scelta.prezzo * qta;
+  const tot = pieno * (1 - s);
+  const off = Math.round((1 - scelta.prezzo / scelta.prima) * 100);
+
+  document.getElementById('prezzoOra').textContent   = fmt(scelta.prezzo);
+  document.getElementById('prezzoPrima').textContent = fmt(scelta.prima);
+  document.getElementById('percOff').textContent     = '-' + off + '%';
+  document.getElementById('q').textContent           = qta;
+  document.getElementById('compra').textContent      = 'Acquista ora — ' + fmt(tot);
+  document.getElementById('prezzoSticky').textContent = fmt(tot);
+
+  const box = document.getElementById('risparmio');
+  if(s > 0){
+    box.textContent = 'Stai risparmiando ' + fmt(pieno - tot) + ' con lo sconto quantità';
+    box.classList.add('on');
+  } else {
+    box.classList.remove('on');
+  }
+}
+
+document.getElementById('taglie').addEventListener('click', e => {
+  const b = e.target.closest('.taglia');
+  if(!b) return;
+  scelta = VARIANTI.find(v => v.id === b.dataset.id);
+  document.querySelectorAll('.taglia').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  aggiorna();
+});
+
+document.getElementById('piu').onclick  = () => { if(qta < 5){ qta++; aggiorna(); } };
+document.getElementById('meno').onclick = () => { if(qta > 1){ qta--; aggiorna(); } };
+
+const vai = () => location.href = 'checkout.html?taglia=' + scelta.id + '&qta=' + qta;
+document.getElementById('compra').onclick  = vai;
+document.getElementById('compra2').onclick = vai;
+
+const sticky = document.getElementById('sticky');
+new IntersectionObserver(([e]) => sticky.classList.toggle('on', !e.isIntersecting),
+  {rootMargin:'-80px 0px 0px 0px'}).observe(document.getElementById('compra'));
+
+aggiorna();
+</script>
+</body>
+</html>

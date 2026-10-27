@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout — PijamaMania</title>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{
+  --abisso:#07152e;
+  --card:#0d2448;
+  --squalo:#2fb6ff;
+  --schiuma:#eaf4ff;
+  --grigio:#7e93b0;
+  --bordo:rgba(255,255,255,.14);
+  --ok:#25c08b;
+  --font:'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--abisso);color:var(--schiuma);line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:var(--squalo)}
+
+header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--bordo)}
+.logo{font-size:19px;font-weight:800;letter-spacing:-.4px}
+.logo span{color:var(--squalo)}
+.indietro{font-size:13px;color:var(--grigio);text-decoration:none}
+
+.wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px}
+.cols{display:grid;gap:26px}
+@media(min-width:880px){.cols{grid-template-columns:1.25fr .85fr;gap:44px;align-items:start}}
+
+h1{font-size:24px;font-weight:800;letter-spacing:-.6px;margin-bottom:22px}
+h2{font-size:14px;font-weight:700;letter-spacing:1px;color:var(--grigio);margin:26px 0 12px}
+h2:first-of-type{margin-top:0}
+
+/* riepilogo */
+.riepilogo{background:var(--card);border:1px solid var(--bordo);border-radius:16px;padding:20px}
+@media(min-width:880px){.riepilogo{position:sticky;top:24px}}
+.riga-prod{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--bordo)}
+.mini{width:62px;height:62px;border-radius:11px;flex:0 0 62px;background:linear-gradient(145deg,#113463,#0a1f3e);position:relative;overflow:hidden}
+.mini::after{content:"🦈";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;opacity:.5}
+.mini img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
+.riga-prod .nome{font-weight:700;font-size:15px}
+.riga-prod .var{font-size:13px;color:var(--grigio);margin-top:2px}
+.tot-riga{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;margin-top:13px;color:var(--grigio)}
+.tot-riga.finale{color:var(--schiuma);font-size:19px;font-weight:800;border-top:1px solid var(--bordo);padding-top:14px;margin-top:16px}
+.gratis{color:var(--ok);font-weight:600}
+
+/* form */
+.campo{margin-bottom:14px}
+.campo label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--grigio)}
+input[type=text],input[type=email]{
+  width:100%;background:rgba(255,255,255,.04);
+  border:1px solid var(--bordo);border-radius:11px;
+  padding:14px 15px;font-size:16px;color:var(--schiuma);
+  font-family:var(--font);outline:none;transition:.15s;
+}
+input::placeholder{color:#55688a}
+input:focus{border-color:var(--squalo);background:rgba(47,182,255,.06)}
+.due{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+#payment-element{margin-top:6px}
+
+.paga{
+  width:100%;margin-top:22px;
+  background:var(--squalo);color:var(--abisso);
+  border:0;border-radius:13px;padding:19px;
+  font-size:17px;font-weight:800;cursor:pointer;font-family:var(--font);
+  box-shadow:0 10px 30px rgba(47,182,255,.2);
+}
+.paga:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
+.nota{margin-top:14px;font-size:12.5px;color:var(--grigio);text-align:center}
+.errore{margin-top:14px;background:rgba(255,77,94,.12);border:1px solid rgba(255,77,94,.35);color:#ff9aa4;padding:13px 15px;border-radius:11px;font-size:14px;display:none}
+.caricamento{color:var(--grigio);font-size:14px;padding:30px 0;text-align:center}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(7,21,46,.3);border-top-color:var(--abisso);border-radius:50%;animation:gira .7s linear infinite;vertical-align:-2px;margin-right:7px}
+@keyframes gira{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="img/logo.png" alt="PijamaMania" style="height:35px;width:auto">
+  <a class="indietro" href="index.html">← Torna al prodotto</a>
+</header>
+
+<div class="wrap">
+  <div class="cols">
+
+    <div>
+      <h1>Completa l'ordine</h1>
+      <form id="form-pagamento">
+
+        <h2>CONTATTO</h2>
+        <div class="campo">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="tua@email.it" required>
+        </div>
+
+        <h2>SPEDIZIONE</h2>
+        <div class="campo due">
+          <div>
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" placeholder="Mario" required>
+          </div>
+          <div>
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" placeholder="Rossi" required>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="via">Indirizzo</label>
+          <input type="text" id="via" placeholder="Via Roma 12" required>
+        </div>
+        <div class="campo due">
+          <div>
+            <label for="cap">CAP</label>
+            <input type="text" id="cap" placeholder="26900" required>
+          </div>
+          <div>
+            <label for="citta">Città</label>
+            <input type="text" id="citta" placeholder="Lodi" required>
+          </div>
+        </div>
+        <div class="campo">
+          <label for="telefono">Telefono (per il corriere)</label>
+          <input type="text" id="telefono" placeholder="333 1234567">
+        </div>
+
+        <h2>PAGAMENTO</h2>
+        <div id="payment-element"><div class="caricamento">Carico i metodi di pagamento…</div></div>
+
+        <button class="paga" id="paga" type="submit" disabled>Paga <span id="totBtn"></span></button>
+        <div class="errore" id="errore"></div>
+        <div class="nota">🔒 Pagamento protetto da Stripe. I dati della carta non transitano mai dai nostri server.</div>
+      </form>
+    </div>
+
+    <div class="riepilogo">
+      <div class="riga-prod">
+        <div class="mini"><img src="img/squalo-1.jpg" alt="" onerror="this.style.display='none'"></div>
+        <div>
+          <div class="nome">Coperta Squalo Indossabile</div>
+          <div class="var" id="variante">Caricamento…</div>
+        </div>
+      </div>
+      <div class="tot-riga"><span>Subtotale</span><span id="subtotale">—</span></div>
+      <div class="tot-riga" id="rigaSconto" style="display:none"><span>Sconto quantità</span><span class="gratis" id="sconto">—</span></div>
+      <div class="tot-riga"><span>Spedizione</span><span class="gratis">Gratuita</span></div>
+      <div class="tot-riga finale"><span>Totale</span><span id="totale">—</span></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ⚠️ Sostituisci con la TUA chiave pubblicabile Stripe (pk_test_... in test, pk_live_... in produzione).
+// Questa chiave è pubblica: può stare nel codice del sito senza problemi.
+const STRIPE_PUBLIC_KEY = 'pk_test_SOSTITUISCI_QUI';
+
+const params = new URLSearchParams(location.search);
+const taglia = params.get('taglia') || 'mega';
+const qta    = Math.min(Math.max(parseInt(params.get('qta') || '1', 10) || 1, 1), 5);
+
+const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
+const mostraErrore = m => { const e = document.getElementById('errore'); e.textContent = m; e.style.display = 'block'; };
+
+let stripe, elements;
+
+async function avvia(){
+  stripe = Stripe(STRIPE_PUBLIC_KEY);
+
+  let dati;
+  try {
+    const r = await fetch('/api/create-payment-intent', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ taglia, qta })
+    });
+    if(!r.ok) throw new Error('risposta ' + r.status);
+    dati = await r.json();
+  } catch(err){
+    const box = document.querySelector('#payment-element .caricamento');
+    if(box) box.textContent = 'Impossibile avviare il pagamento.';
+    mostraErrore('Qualcosa è andato storto. Ricarica la pagina o riprova tra poco.');
+    return;
+  }
+
+  const { clientSecret, importo, pieno, nomeVariante } = dati;
+
+  // riepilogo: i numeri arrivano dal server, non dalla pagina precedente
+  document.getElementById('variante').textContent  = nomeVariante + ' · Quantità ' + qta;
+  document.getElementById('subtotale').textContent = euro(pieno);
+  document.getElementById('totale').textContent    = euro(importo);
+  document.getElementById('totBtn').textContent    = euro(importo);
+
+  if(pieno > importo){
+    document.getElementById('sconto').textContent = '− ' + euro(pieno - importo);
+    document.getElementById('rigaSconto').style.display = 'flex';
+  }
+
+  // Qui si decide l'aspetto del form di pagamento: è il motivo per cui
+  // non serve mandare il cliente sul checkout di Stripe.
+  elements = stripe.elements({
+    clientSecret,
+    appearance:{
+      theme:'night',
+      variables:{
+        colorPrimary:'#2fb6ff',
+        colorBackground:'#0c2143',
+        colorText:'#eaf4ff',
+        colorTextPlaceholder:'#55688a',
+        colorDanger:'#ff4d5e',
+        fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif',
+        borderRadius:'11px',
+        spacingUnit:'4px'
+      },
+      rules:{
+        '.Input':{ border:'1px solid rgba(255,255,255,.14)', padding:'14px 15px', boxShadow:'none' },
+        '.Input:focus':{ border:'1px solid #2fb6ff', boxShadow:'none' },
+        '.Label':{ color:'#7e93b0', fontWeight:'600', fontSize:'13px' },
+        '.Tab':{ border:'1px solid rgba(255,255,255,.14)', boxShadow:'none' },
+        '.Tab--selected':{ border:'1px solid #2fb6ff', color:'#2fb6ff' }
+      }
+    }
+  });
+
+  const paymentElement = elements.create('payment', { layout:'tabs' });
+  const caric = document.querySelector('#payment-element .caricamento');
+  if(caric) caric.remove();
+  paymentElement.mount('#payment-element');
+
+  document.getElementById('paga').disabled = false;
+}
+
+document.getElementById('form-pagamento').addEventListener('submit', async e => {
+  e.preventDefault();
+  if(!elements) return;
+
+  const bottone = document.getElementById('paga');
+  bottone.disabled = true;
+  bottone.innerHTML = '<span class="spinner"></span>Elaborazione…';
+  document.getElementById('errore').style.display = 'none';
+
+  const { error } = await stripe.confirmPayment({
+    elements,
+    confirmParams:{
+      return_url: location.origin + '/grazie.html',
+      receipt_email: document.getElementById('email').value,
+      shipping:{
+        name: document.getElementById('nome').value + ' ' + document.getElementById('cognome').value,
+        phone: document.getElementById('telefono').value,
+        address:{
+          line1:       document.getElementById('via').value,
+          postal_code: document.getElementById('cap').value,
+          city:        document.getElementById('citta').value,
+          country:     'IT'
+        }
+      }
+    }
+  });
+
+  // Si arriva qui solo se il pagamento NON è andato a buon fine.
+  if(error){
+    mostraErrore(error.message || 'Pagamento non riuscito. Controlla i dati della carta.');
+    bottone.disabled = false;
+    bottone.innerHTML = 'Paga <span id="totBtn">' + document.getElementById('totale').textContent + '</span>';
+  }
+});
+
+avvia();
+</script>
+</body>
+</html>

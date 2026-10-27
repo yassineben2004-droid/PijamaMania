@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ordine confermato — PijamaMania</title>
+<script src="https://js.stripe.com/v3/"></script>
+<style>
+:root{--abisso:#07152e;--squalo:#2fb6ff;--schiuma:#eaf4ff;--grigio:#7e93b0;--ok:#25c08b}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--abisso);color:var(--schiuma);
+display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px;text-align:center;line-height:1.55}
+.box{max-width:430px}
+.cerchio{width:74px;height:74px;border-radius:50%;background:rgba(37,192,139,.14);
+display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 22px}
+h1{font-size:27px;font-weight:800;letter-spacing:-.7px;margin-bottom:12px}
+p{color:var(--grigio);font-size:15.5px;margin-bottom:10px}
+.btn{display:inline-block;margin-top:24px;background:var(--squalo);color:var(--abisso);
+padding:16px 30px;border-radius:12px;font-weight:800;text-decoration:none;font-size:15.5px}
+.logo{margin-top:34px;font-size:15px;font-weight:800;color:var(--grigio)}
+.logo span{color:var(--squalo)}
+.attesa{color:var(--grigio)}
+</style>
+</head>
+<body>
+<div class="box" id="box">
+  <div class="attesa">Verifico il pagamento…</div>
+</div>
+
+<script>
+const STRIPE_PUBLIC_KEY = 'pk_test_SOSTITUISCI_QUI';
+
+const stripe = Stripe(STRIPE_PUBLIC_KEY);
+const clientSecret = new URLSearchParams(location.search).get('payment_intent_client_secret');
+const box = document.getElementById('box');
+
+function mostra(icona, titolo, testo, colore){
+  box.innerHTML =
+    '<div class="cerchio" style="background:' + colore + '">' + icona + '</div>' +
+    '<h1>' + titolo + '</h1>' +
+    '<p>' + testo + '</p>' +
+    '<a class="btn" href="index.html">Torna al negozio</a>' +
+    '<div style="margin-top:34px"><img src="img/logo.png" alt="PijamaMania" style="height:40px;width:auto"></div>';
+}
+
+if(!clientSecret){
+  mostra('🦈', 'Nessun ordine da mostrare', 'Sembra che tu sia arrivato qui per sbaglio.', 'rgba(47,182,255,.14)');
+} else {
+  stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+    switch(paymentIntent && paymentIntent.status){
+      case 'succeeded':
+        mostra('✓', 'Ordine confermato!',
+          'Grazie, abbiamo ricevuto il pagamento. Ti arriva subito una email di conferma e, appena il pacco parte, il codice di tracciamento.',
+          'rgba(37,192,139,.14)');
+        break;
+      case 'processing':
+        mostra('⏳', 'Pagamento in elaborazione',
+          'La banca sta confermando la transazione. Ti avvisiamo via email appena è tutto a posto.',
+          'rgba(255,201,77,.14)');
+        break;
+      default:
+        mostra('✕', 'Pagamento non riuscito',
+          'Non siamo riusciti ad addebitare la carta. Nessun importo è stato prelevato: puoi riprovare quando vuoi.',
+          'rgba(255,77,94,.14)');
+    }
+  });
+}
+</script>
+</body>
+</html>
