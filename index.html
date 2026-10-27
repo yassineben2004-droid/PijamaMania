@@ -94,7 +94,7 @@ h1{font-size:33px;line-height:1.1;letter-spacing:-1px;font-weight:800;margin-bot
   .blocco{grid-template-columns:1fr 1fr;gap:44px}
   .blocco.inv .media{order:2}
 }
-.media{position:relative;aspect-ratio:4/3;border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,#113463,#0a1f3e)}
+.media{position:relative;aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,#113463,#0a1f3e)}
 .media::after{content:attr(data-ph);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(234,244,255,.26);font-size:11.5px;letter-spacing:1.6px;font-weight:700;text-align:center;padding:14px}
 .media img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
 .blocco h3{font-size:23px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px}
@@ -110,6 +110,8 @@ h2{font-size:26px;font-weight:800;letter-spacing:-.6px;margin-bottom:22px}
 .nota-taglie{margin-top:14px;font-size:13.5px;color:var(--grigio)}
 
 /* ---------- faq ---------- */
+.recensioni{display:grid;gap:24px;margin-bottom:42px;align-items:start}
+@media(min-width:800px){.recensioni{grid-template-columns:1fr 1.4fr;gap:40px}}
 details{border-bottom:1px solid rgba(255,255,255,.1);padding:16px 0}
 summary{font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px}
 summary::-webkit-details-marker{display:none}
@@ -215,7 +217,7 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
 
     <div class="blocco inv">
       <div class="media" data-ph="GIF: SI INFILA DENTRO LA CODA &middot; img/desc-2.gif">
-        <img src="img/desc-2.gif" alt="" onerror="this.style.display='none'">
+        <img src="img/desc-2.png" style="object-position:center 25%" alt="" onerror="this.style.display='none'">
       </div>
       <div>
         <h3>Pile flanellato, caldo dal primo secondo</h3>
@@ -225,7 +227,7 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
 
     <div class="blocco">
       <div class="media" data-ph="GIF: REAZIONE / GRUPPO CHE RIDE &middot; img/desc-3.gif">
-        <img src="img/desc-3.gif" alt="" onerror="this.style.display='none'">
+        <img src="img/squalo-6.jpg" style="object-position:center 30%" alt="" onerror="this.style.display='none'">
       </div>
       <div>
         <h3>Il regalo che nessuno si aspetta</h3>
@@ -235,7 +237,7 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
 
     <div class="blocco inv">
       <div class="media" data-ph="FOTO: DETTAGLIO TESSUTO / LAVAGGIO &middot; img/desc-4.jpg">
-        <img src="img/desc-4.jpg" alt="" onerror="this.style.display='none'">
+        <img src="img/squalo-4.jpg" alt="" onerror="this.style.display='none'">
       </div>
       <div>
         <h3>In lavatrice e via</h3>
@@ -261,7 +263,7 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
 <!-- ---------- recensioni ---------- -->
 <section class="wrap" style="border-top:1px solid rgba(255,255,255,.08);padding-top:42px">
   <h2>Cosa ne pensano i clienti</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:42px;align-items:start">
+  <div class="recensioni">
     <div>
       <div style="font-size:48px;font-weight:800;margin-bottom:4px">4.9★</div>
       <div style="color:#7e93b0;font-size:15px;margin-bottom:20px">Su 100+ recensioni verificate</div>
@@ -293,7 +295,7 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
       </div>
       <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);padding:16px;border-radius:12px">
         <div style="color:#ffc94d;margin-bottom:6px">★★★★★</div>
-        <div style="font-size:14px;line-height:1.5;color:#eaf4ff">«Non graffina, non pizzica, il tessuto di qualità si vede. Consigliata, davvero.»</div>
+        <div style="font-size:14px;line-height:1.5;color:#eaf4ff">«Non graffia, non pizzica, il tessuto di qualità si vede. Consigliata, davvero.»</div>
         <div style="font-size:12px;color:#7e93b0;margin-top:10px">— Elena T., verificato</div>
       </div>
     </div>
