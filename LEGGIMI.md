@@ -67,20 +67,23 @@ Con le chiavi `pk_test_` / `sk_test_`:
 
 Scadenza: una data futura qualsiasi. CVC: tre cifre qualsiasi.
 
-## Prezzi e taglie
+## Prezzi e offerte
 
-**PREZZO UNICO: 39,90 € su tutte le taglie**
+| Offerta | Prezzo | Margine (costo 16 €/pz + Stripe, prima della pubblicità) |
+|---|---|---|
+| 1 coperta | 39,90 € | 23,05 € |
+| 2 coperte | 69,90 € | 36,60 € |
+| 3 coperte | 94,90 € | 45,23 € |
 
-| Taglia | Età | Altezza | Prezzo |
-|---|---|---|---|
-| Baby Shark | 2-5 anni | 84-150 cm | 39,90 € |
-| Junior Shark | 6-10 anni | 152-170 cm | 39,90 € |
-| Teen Shark | 11-15 anni | 173-190 cm | 39,90 € |
-| Mega Shark | 16+ anni | 193-211 cm | 39,90 € |
+Ogni coperta dell'offerta ha la sua taglia (Bimbo 2-5, Bambino 6-10, Ragazzo 11-15, Adulto 16+).
 
-Sconto quantità: 2 pezzi −5%, da 3 pezzi −10%.
+Per cambiare i prezzi servono **due** punti, da tenere allineati:
+- `api/create-payment-intent.js` → `OFFERTE` e `PREZZO_SINGOLO`, in centesimi ← **quello che il cliente paga davvero**
+- `index.html` → `OFFERTE` e `PREZZO` nello script (solo quello che si vede a schermo)
 
-I prezzi sono già allineati fra `api/create-payment-intent.js` (centesimi, ciò che si paga davvero) e `index.html` (display). Se li vuoi cambiare in futuro, modifica entrambi i file con attenzione.
+Scadenza Natale: in `index.html` cerca `scadenza` (ora 2 dicembre 2026, calcolata su 2 giorni di preparazione + 12 di consegna).
+
+Statistiche: su Vercel → progetto → **Analytics** → Enable. Le visite a `grazie.html` sono gli acquisti.
 
 ## Tre cose da sistemare prima di andare live
 

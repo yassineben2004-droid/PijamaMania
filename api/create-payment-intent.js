@@ -7,23 +7,18 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const PRODOTTO = 'Coperta Squalo Indossabile';
 
-// prezzi in centesimi — PREZZO UNICO 39,90€ su tutte le taglie
+// taglie (stesso prezzo per tutte)
 const VARIANTI = {
-  baby:   { nome: 'Baby Shark · 2-5 anni',    prezzo: 3990 },
-  junior: { nome: 'Junior Shark · 6-10 anni', prezzo: 3990 },
-  teen:   { nome: 'Teen Shark · 11-15 anni',  prezzo: 3990 },
-  mega:   { nome: 'Mega Shark · 16+ anni',    prezzo: 3990 }
+  baby:   { nome: 'Bimbo 2-5 anni' },
+  junior: { nome: 'Bambino 6-10 anni' },
+  teen:   { nome: 'Ragazzo 11-15 anni' },
+  mega:   { nome: 'Adulto 16+' }
 };
 
+// prezzi in centesimi — QUESTI sono quelli che il cliente paga davvero
+const PREZZO_SINGOLO = 3990;
+const OFFERTE = { 1: 3990, 2: 6990, 3: 9490 };   // 1, 2 o 3 coperte
 const SPEDIZIONE = 0;   // gratuita
-const QTA_MAX = 5;
-
-// sconto quantità: 2 pezzi -5%, da 3 in su -10%
-function sconto(qta){
-  if (qta >= 3) return 0.10;
-  if (qta === 2) return 0.05;
-  return 0;
-}
 
 // ---------- nome sull'estratto conto della carta ----------
 // Il cliente vede "<PREFISSO ACCOUNT>* PIJAMAMANIA". Il prefisso è quello del
@@ -58,25 +53,29 @@ module.exports = async (req, res) => {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
 
-    const variante = VARIANTI[body.taglia];
-    if (!variante) return res.status(400).json({ errore: 'Taglia non valida' });
+    // taglie: ["mega","baby"] — accetta anche il vecchio formato {taglia, qta}
+    let taglie = Array.isArray(body.taglie) ? body.taglie
+      : (body.taglia ? Array(Math.min(Math.max(parseInt(body.qta, 10) || 1, 1), 3)).fill(body.taglia) : []);
+    taglie = taglie.map(String);
+    if (taglie.length < 1 || taglie.length > 3 || !taglie.every(t => VARIANTI[t]))
+      return res.status(400).json({ errore: 'Taglie non valide' });
 
-    const qta = Math.min(Math.max(parseInt(body.qta, 10) || 1, 1), QTA_MAX);
-
-    const pieno = variante.prezzo * qta;
-    const importo = Math.round(pieno * (1 - sconto(qta))) + SPEDIZIONE;
+    const qta = taglie.length;
+    const pieno = PREZZO_SINGOLO * qta;
+    const importo = OFFERTE[qta] + SPEDIZIONE;
+    const nomeVariante = taglie.map(t => VARIANTI[t].nome).join(' + ');
 
     const dati = {
       amount: importo,
       currency: 'eur',
       automatic_payment_methods: { enabled: true },   // carte, Apple Pay, Google Pay, Klarna se attivi
-      description: `${PRODOTTO} — ${variante.nome} × ${qta}`,
+      description: `${PRODOTTO} — ${nomeVariante}`,
       metadata: {
         prodotto: PRODOTTO,
-        taglia: body.taglia,
-        taglia_nome: variante.nome,
+        taglia: taglie.join(','),
+        taglia_nome: nomeVariante,
         qta: String(qta),
-        sconto_applicato: (sconto(qta) * 100) + '%'
+        sconto_applicato: ((pieno - importo) / 100).toFixed(2).replace('.', ',') + ' €'
       }
     };
 
@@ -99,7 +98,8 @@ module.exports = async (req, res) => {
       clientSecret: intent.client_secret,
       importo,
       pieno,
-      nomeVariante: variante.nome
+      nomeVariante,
+      qta
     });
 
   } catch (err) {

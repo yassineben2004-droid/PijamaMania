@@ -36,7 +36,7 @@ function mailCliente({ numero, nome, prodotto, variante, qta, totale, indirizzo 
       <table style="width:100%;border-collapse:collapse;font-size:14.5px;border-top:1px solid #e3e9f1;border-bottom:1px solid #e3e9f1">
         ${riga('Numero ordine', esc(numero))}
         ${riga('Prodotto', esc(prodotto))}
-        ${riga('Taglia', esc(variante))}
+        ${riga(Number(qta) > 1 ? 'Taglie' : 'Taglia', esc(variante))}
         ${riga('Quantità', esc(qta))}
         ${riga('Spedizione', 'Gratuita')}
         ${riga('<b style="color:#0b1b33">Totale pagato</b>', '<b>' + esc(totale) + '</b>')}

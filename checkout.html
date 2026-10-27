@@ -7,72 +7,72 @@
 <script src="https://js.stripe.com/v3/"></script>
 <style>
 :root{
-  --abisso:#07152e;
-  --card:#0d2448;
-  --squalo:#2fb6ff;
-  --schiuma:#eaf4ff;
-  --grigio:#7e93b0;
-  --bordo:rgba(255,255,255,.14);
-  --ok:#25c08b;
+  --notte:#0b1f3d;
+  --sabbia:#fbf7f1;
+  --bianco:#ffffff;
+  --testo:#17243a;
+  --grigio:#5e6b80;
+  --linea:#e2d9cb;
+  --squalo:#3b8fd6;
+  --corallo:#ff6a3d;
+  --ok:#1f9d6b;
   --font:'Helvetica Neue',Helvetica,Arial,sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font);background:var(--abisso);color:var(--schiuma);line-height:1.5;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font);background:var(--sabbia);color:var(--testo);line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:var(--squalo)}
 
-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--bordo)}
-.logo{font-size:19px;font-weight:800;letter-spacing:-.4px}
-.logo span{color:var(--squalo)}
-.indietro{font-size:13px;color:var(--grigio);text-decoration:none}
+header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:var(--notte)}
+.indietro{font-size:13px;color:#c9d5e6;text-decoration:none}
 
-.wrap{max-width:980px;margin:0 auto;padding:24px 18px 60px}
-.cols{display:grid;gap:26px}
+.wrap{max-width:980px;margin:0 auto;padding:22px 18px 60px}
+.cols{display:grid;gap:22px}
 @media(min-width:880px){.cols{grid-template-columns:1.25fr .85fr;gap:44px;align-items:start}}
+@media(max-width:879px){.riepilogo{order:-1}}
 
-h1{font-size:24px;font-weight:800;letter-spacing:-.6px;margin-bottom:22px}
-h2{font-size:14px;font-weight:700;letter-spacing:1px;color:var(--grigio);margin:26px 0 12px}
+h1{font-size:24px;font-weight:800;letter-spacing:-.6px;margin-bottom:20px;color:var(--notte)}
+h2{font-size:12.5px;font-weight:800;letter-spacing:1px;color:var(--grigio);margin:26px 0 12px}
 h2:first-of-type{margin-top:0}
 
 /* riepilogo */
-.riepilogo{background:var(--card);border:1px solid var(--bordo);border-radius:16px;padding:20px}
+.riepilogo{background:var(--bianco);border:1px solid var(--linea);border-radius:16px;padding:18px 20px}
 @media(min-width:880px){.riepilogo{position:sticky;top:24px}}
-.riga-prod{display:flex;gap:14px;align-items:center;padding-bottom:16px;border-bottom:1px solid var(--bordo)}
-.mini{width:62px;height:62px;border-radius:11px;flex:0 0 62px;background:linear-gradient(145deg,#113463,#0a1f3e);position:relative;overflow:hidden}
-.mini::after{content:"🦈";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:26px;opacity:.5}
-.mini img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
-.riga-prod .nome{font-weight:700;font-size:15px}
+.riga-prod{display:flex;gap:14px;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--linea)}
+.mini{width:62px;height:62px;border-radius:11px;flex:0 0 62px;background:var(--sabbia);overflow:hidden}
+.mini img{width:100%;height:100%;object-fit:cover}
+.riga-prod .nome{font-weight:800;font-size:15px;color:var(--notte)}
 .riga-prod .var{font-size:13px;color:var(--grigio);margin-top:2px}
-.tot-riga{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;margin-top:13px;color:var(--grigio)}
-.tot-riga.finale{color:var(--schiuma);font-size:19px;font-weight:800;border-top:1px solid var(--bordo);padding-top:14px;margin-top:16px}
-.gratis{color:var(--ok);font-weight:600}
+.tot-riga{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;margin-top:11px;color:var(--grigio)}
+.tot-riga.finale{color:var(--notte);font-size:19px;font-weight:800;border-top:1px solid var(--linea);padding-top:13px;margin-top:14px}
+.gratis{color:var(--ok);font-weight:700}
 
 /* form */
 .campo{margin-bottom:14px}
 .campo label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--grigio)}
 input[type=text],input[type=email]{
-  width:100%;background:rgba(255,255,255,.04);
-  border:1px solid var(--bordo);border-radius:11px;
-  padding:14px 15px;font-size:16px;color:var(--schiuma);
+  width:100%;background:var(--bianco);
+  border:1px solid var(--linea);border-radius:11px;
+  padding:14px 15px;font-size:16px;color:var(--testo);
   font-family:var(--font);outline:none;transition:.15s;
 }
-input::placeholder{color:#55688a}
-input:focus{border-color:var(--squalo);background:rgba(47,182,255,.06)}
+input::placeholder{color:#a3acb9}
+input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)}
 .due{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 #payment-element{margin-top:6px}
 
 .paga{
   width:100%;margin-top:22px;
-  background:var(--squalo);color:var(--abisso);
-  border:0;border-radius:13px;padding:19px;
+  background:var(--corallo);color:#fff;
+  border:0;border-radius:14px;padding:19px;
   font-size:17px;font-weight:800;cursor:pointer;font-family:var(--font);
-  box-shadow:0 10px 30px rgba(47,182,255,.2);
+  box-shadow:0 10px 26px rgba(255,106,61,.28);
 }
 .paga:disabled{opacity:.55;cursor:not-allowed;box-shadow:none}
 .nota{margin-top:14px;font-size:12.5px;color:var(--grigio);text-align:center}
-.errore{margin-top:14px;background:rgba(255,77,94,.12);border:1px solid rgba(255,77,94,.35);color:#ff9aa4;padding:13px 15px;border-radius:11px;font-size:14px;display:none}
+.errore{margin-top:14px;background:#fff0f0;border:1px solid #f5c2c2;color:#b42318;padding:13px 15px;border-radius:11px;font-size:14px;display:none}
 .caricamento{color:var(--grigio);font-size:14px;padding:30px 0;text-align:center}
-.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(7,21,46,.3);border-top-color:var(--abisso);border-radius:50%;animation:gira .7s linear infinite;vertical-align:-2px;margin-right:7px}
+.spinner{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:gira .7s linear infinite;vertical-align:-2px;margin-right:7px}
 @keyframes gira{to{transform:rotate(360deg)}}
 </style>
 </head>
@@ -145,7 +145,7 @@ input:focus{border-color:var(--squalo);background:rgba(47,182,255,.06)}
         </div>
       </div>
       <div class="tot-riga"><span>Subtotale</span><span id="subtotale">—</span></div>
-      <div class="tot-riga" id="rigaSconto" style="display:none"><span>Sconto quantità</span><span class="gratis" id="sconto">—</span></div>
+      <div class="tot-riga" id="rigaSconto" style="display:none"><span>Risparmio offerta</span><span class="gratis" id="sconto">—</span></div>
       <div class="tot-riga"><span>Spedizione</span><span class="gratis">Gratuita</span></div>
       <div class="tot-riga finale"><span>Totale</span><span id="totale">—</span></div>
     </div>
@@ -159,8 +159,13 @@ input:focus{border-color:var(--squalo);background:rgba(47,182,255,.06)}
 const STRIPE_PUBLIC_KEY = 'pk_live_51HUprcHeIz0GVO4KOlGb3ZdLrn4OfWrqgr7tjmMkFYiPK0RiaeM11B11CTFK67MptXSM47rhaZTfjq2F3e9W4xMO00HXznXO8v';
 
 const params = new URLSearchParams(location.search);
-const taglia = params.get('taglia') || 'mega';
-const qta    = Math.min(Math.max(parseInt(params.get('qta') || '1', 10) || 1, 1), 5);
+// ?t=mega,baby  (vecchio formato ?taglia=mega&qta=2 ancora accettato)
+let taglie = (params.get('t') || '').split(',').filter(Boolean);
+if (!taglie.length) {
+  const q = Math.min(Math.max(parseInt(params.get('qta') || '1', 10) || 1, 1), 3);
+  taglie = Array(q).fill(params.get('taglia') || 'mega');
+}
+taglie = taglie.slice(0, 3);
 
 const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const mostraErrore = m => { const e = document.getElementById('errore'); e.textContent = m; e.style.display = 'block'; };
@@ -175,7 +180,7 @@ async function avvia(){
     const r = await fetch('/api/create-payment-intent', {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ taglia, qta })
+      body: JSON.stringify({ taglie })
     });
     if(!r.ok) throw new Error('risposta ' + r.status);
     dati = await r.json();
@@ -186,10 +191,10 @@ async function avvia(){
     return;
   }
 
-  const { clientSecret, importo, pieno, nomeVariante } = dati;
+  const { clientSecret, importo, pieno, nomeVariante, qta } = dati;
 
   // riepilogo: i numeri arrivano dal server, non dalla pagina precedente
-  document.getElementById('variante').textContent  = nomeVariante + ' · Quantità ' + qta;
+  document.getElementById('variante').textContent  = (qta > 1 ? qta + ' coperte · ' : '') + nomeVariante;
   document.getElementById('subtotale').textContent = euro(pieno);
   document.getElementById('totale').textContent    = euro(importo);
   document.getElementById('totBtn').textContent    = euro(importo);
@@ -204,23 +209,23 @@ async function avvia(){
   elements = stripe.elements({
     clientSecret,
     appearance:{
-      theme:'night',
+      theme:'stripe',
       variables:{
-        colorPrimary:'#2fb6ff',
-        colorBackground:'#0c2143',
-        colorText:'#eaf4ff',
-        colorTextPlaceholder:'#55688a',
-        colorDanger:'#ff4d5e',
+        colorPrimary:'#3b8fd6',
+        colorBackground:'#ffffff',
+        colorText:'#17243a',
+        colorTextPlaceholder:'#a3acb9',
+        colorDanger:'#b42318',
         fontFamily:'Helvetica Neue, Helvetica, Arial, sans-serif',
         borderRadius:'11px',
         spacingUnit:'4px'
       },
       rules:{
-        '.Input':{ border:'1px solid rgba(255,255,255,.14)', padding:'14px 15px', boxShadow:'none' },
-        '.Input:focus':{ border:'1px solid #2fb6ff', boxShadow:'none' },
-        '.Label':{ color:'#7e93b0', fontWeight:'600', fontSize:'13px' },
-        '.Tab':{ border:'1px solid rgba(255,255,255,.14)', boxShadow:'none' },
-        '.Tab--selected':{ border:'1px solid #2fb6ff', color:'#2fb6ff' }
+        '.Input':{ border:'1px solid #e2d9cb', padding:'14px 15px', boxShadow:'none' },
+        '.Input:focus':{ border:'1px solid #3b8fd6', boxShadow:'0 0 0 3px rgba(59,143,214,.15)' },
+        '.Label':{ color:'#5e6b80', fontWeight:'600', fontSize:'13px' },
+        '.Tab':{ border:'1px solid #e2d9cb', boxShadow:'none' },
+        '.Tab--selected':{ border:'1px solid #3b8fd6', color:'#3b8fd6' }
       }
     }
   });
