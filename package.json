@@ -4,6 +4,7 @@
   "private": true,
   "description": "PijamaMania - Coperta Squalo Indossabile, sito con checkout Stripe integrato",
   "dependencies": {
+    "nodemailer": "^6.9.0",
     "stripe": "^17.0.0"
   }
 }

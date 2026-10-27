@@ -52,6 +52,12 @@ if(!clientSecret){
         mostra('✓', 'Ordine confermato!',
           'Grazie, abbiamo ricevuto il pagamento. Ti arriva subito una email di conferma e, appena il pacco parte, il codice di tracciamento.',
           'rgba(37,192,139,.14)');
+        // manda la mail di conferma (il server controlla con Stripe che il pagamento sia vero)
+        fetch('/api/conferma-ordine', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body: JSON.stringify({ id: paymentIntent.id })
+        }).catch(() => {});
         break;
       case 'processing':
         mostra('⏳', 'Pagamento in elaborazione',
