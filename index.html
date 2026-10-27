@@ -37,8 +37,16 @@ section{padding:42px 0}
 .shot{position:relative;aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden;background:linear-gradient(145deg,#113463,#0a1f3e)}
 .shot::after{content:attr(data-ph);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(234,244,255,.26);font-size:11.5px;letter-spacing:1.6px;font-weight:700;text-align:center;padding:10px}
 .shot img{position:relative;z-index:1;width:100%;height:100%;object-fit:cover}
-.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-.thumbs .shot{border-radius:11px}
+.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.thumbs .shot{border-radius:11px;cursor:pointer;border:2px solid transparent;padding:0;transition:border-color .15s,opacity .15s;opacity:.6}
+.thumbs .shot:hover{opacity:.9}
+.thumbs .shot.on{border-color:var(--squalo);opacity:1}
+#fotoMain{transition:opacity .18s}
+.principale{touch-action:pan-y}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:2px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);transition:.15s}
+.dots i.on{background:var(--squalo);width:16px;border-radius:3px}
+@media(min-width:900px){.dots{display:none}}
 
 .badge{display:inline-block;background:rgba(47,182,255,.14);color:var(--squalo);font-size:12px;font-weight:700;letter-spacing:1px;padding:6px 12px;border-radius:999px;margin-bottom:14px}
 h1{font-size:33px;line-height:1.1;letter-spacing:-1px;font-weight:800;margin-bottom:12px}
@@ -140,15 +148,17 @@ footer a{display:inline-block;margin:0 14px 10px 0;text-decoration:underline}
   <section class="hero">
 
     <div class="gallery">
-      <div class="shot" data-ph="FOTO PRINCIPALE &middot; img/squalo-1.jpg">
-        <img src="img/squalo-1.jpg" alt="Coperta squalo indossabile" onerror="this.style.display='none'">
+      <div class="shot principale" id="principale" data-ph="FOTO PRINCIPALE">
+        <img id="fotoMain" src="img/squalo-1.jpg" alt="Coperta squalo indossabile" onerror="this.style.display='none'">
       </div>
-      <div class="thumbs">
-        <div class="shot" data-ph="2"><img src="img/squalo-2.jpg" alt="" onerror="this.style.display='none'"></div>
-        <div class="shot" data-ph="3"><img src="img/squalo-3.jpg" alt="" onerror="this.style.display='none'"></div>
-        <div class="shot" data-ph="4"><img src="img/squalo-4.jpg" alt="" onerror="this.style.display='none'"></div>
-        <div class="shot" data-ph="5"><img src="img/squalo-5.jpg" alt="" onerror="this.style.display='none'"></div>
-        <div class="shot" data-ph="6"><img src="img/squalo-6.jpg" alt="" onerror="this.style.display='none'"></div>
+      <div class="dots" id="dots"></div>
+      <div class="thumbs" id="thumbs">
+        <button type="button" class="shot on" data-i="0" aria-label="Foto 1"><img src="img/squalo-1.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
+        <button type="button" class="shot" data-i="1" aria-label="Foto 2"><img src="img/squalo-2.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
+        <button type="button" class="shot" data-i="2" aria-label="Foto 3"><img src="img/squalo-3.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
+        <button type="button" class="shot" data-i="3" aria-label="Foto 4"><img src="img/squalo-4.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
+        <button type="button" class="shot" data-i="4" aria-label="Foto 5"><img src="img/squalo-5.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
+        <button type="button" class="shot" data-i="5" aria-label="Foto 6"><img src="img/squalo-6.jpg" alt="" loading="lazy" onerror="this.style.display='none'"></button>
       </div>
     </div>
 
@@ -403,6 +413,35 @@ new IntersectionObserver(([e]) => sticky.classList.toggle('on', !e.isIntersectin
   {rootMargin:'-80px 0px 0px 0px'}).observe(document.getElementById('compra'));
 
 aggiorna();
+
+/* ---------- galleria: tocca una miniatura o scorri la foto ---------- */
+(function(){
+  const foto = [1,2,3,4,5,6].map(n => 'img/squalo-' + n + '.jpg');
+  const main = document.getElementById('fotoMain');
+  const thumbs = [...document.querySelectorAll('#thumbs .shot')];
+  const dots = document.getElementById('dots');
+  dots.innerHTML = foto.map((_, i) => '<i' + (i ? '' : ' class="on"') + '></i>').join('');
+  let cur = 0;
+  function mostra(i){
+    cur = (i + foto.length) % foto.length;
+    main.style.opacity = .35;
+    const nuova = new Image();
+    nuova.onload = nuova.onerror = () => { main.src = foto[cur]; main.style.display = ''; main.style.opacity = 1; };
+    nuova.src = foto[cur];
+    thumbs.forEach((t, k) => t.classList.toggle('on', k === cur));
+    [...dots.children].forEach((d, k) => d.classList.toggle('on', k === cur));
+  }
+  thumbs.forEach(t => t.addEventListener('click', () => mostra(+t.dataset.i)));
+  let x0 = null;
+  const box = document.getElementById('principale');
+  box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  box.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) mostra(cur + (dx < 0 ? 1 : -1));
+  });
+  foto.slice(1).forEach(src => { const im = new Image(); im.src = src; });   // precarica
+})();
 </script>
 </body>
 </html>
