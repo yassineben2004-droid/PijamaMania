@@ -171,20 +171,26 @@ taglie = taglie.slice(0, 3);
 const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const mostraErrore = m => { const e = document.getElementById('errore'); e.textContent = m; e.style.display = 'block'; };
 
+const codice = params.get('codice') || undefined;   // solo per l'ordine di prova
 let stripe, elements;
+
+async function chiediServer(extra){
+  const r = await fetch('/api/create-payment-intent', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ taglie, codice, ...extra })
+  });
+  if(!r.ok) throw new Error('risposta ' + r.status);
+  return r.json();
+}
 
 async function avvia(){
   stripe = Stripe(STRIPE_PUBLIC_KEY);
 
+  // Solo il preventivo: su Stripe non si crea niente finché il cliente non clicca "Paga"
   let dati;
   try {
-    const r = await fetch('/api/create-payment-intent', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ taglie })
-    });
-    if(!r.ok) throw new Error('risposta ' + r.status);
-    dati = await r.json();
+    dati = await chiediServer({ solo_prezzo: true });
   } catch(err){
     const box = document.querySelector('#payment-element .caricamento');
     if(box) box.textContent = 'Impossibile avviare il pagamento.';
@@ -192,7 +198,7 @@ async function avvia(){
     return;
   }
 
-  const { clientSecret, importo, pieno, nomeVariante, qta } = dati;
+  const { importo, pieno, nomeVariante, qta, test } = dati;
 
   // riepilogo: i numeri arrivano dal server, non dalla pagina precedente
   document.getElementById('variante').textContent  = (qta > 1 ? qta + ' coperte · ' : '') + nomeVariante;
@@ -201,14 +207,16 @@ async function avvia(){
   document.getElementById('totBtn').textContent    = euro(importo);
 
   if(pieno > importo){
+    document.querySelector('#rigaSconto span').textContent = test ? 'Ordine di prova' : 'Risparmio offerta';
     document.getElementById('sconto').textContent = '− ' + euro(pieno - importo);
     document.getElementById('rigaSconto').style.display = 'flex';
   }
 
-  // Qui si decide l'aspetto del form di pagamento: è il motivo per cui
-  // non serve mandare il cliente sul checkout di Stripe.
+  // Modulo di pagamento con la grafica del sito: il cliente resta su pijamamania.it
   elements = stripe.elements({
-    clientSecret,
+    mode:'payment',
+    amount: importo,
+    currency:'eur',
     appearance:{
       theme:'stripe',
       variables:{
@@ -239,6 +247,12 @@ async function avvia(){
   document.getElementById('paga').disabled = false;
 }
 
+function ripristinaBottone(){
+  const bottone = document.getElementById('paga');
+  bottone.disabled = false;
+  bottone.innerHTML = 'Paga <span id="totBtn">' + document.getElementById('totale').textContent + '</span>';
+}
+
 document.getElementById('form-pagamento').addEventListener('submit', async e => {
   e.preventDefault();
   if(!elements) return;
@@ -248,8 +262,28 @@ document.getElementById('form-pagamento').addEventListener('submit', async e => 
   bottone.innerHTML = '<span class="spinner"></span>Elaborazione…';
   document.getElementById('errore').style.display = 'none';
 
+  // 1) controlla i dati della carta
+  const { error: erroreModulo } = await elements.submit();
+  if(erroreModulo){
+    mostraErrore(erroreModulo.message || 'Controlla i dati di pagamento.');
+    ripristinaBottone();
+    return;
+  }
+
+  // 2) solo adesso si crea il pagamento su Stripe
+  let clientSecret;
+  try {
+    ({ clientSecret } = await chiediServer({}));
+  } catch(err){
+    mostraErrore('Non riusciamo ad avviare il pagamento. Riprova tra poco.');
+    ripristinaBottone();
+    return;
+  }
+
+  // 3) conferma
   const { error } = await stripe.confirmPayment({
     elements,
+    clientSecret,
     confirmParams:{
       return_url: location.origin + '/grazie.html',
       receipt_email: document.getElementById('email').value,
@@ -269,8 +303,7 @@ document.getElementById('form-pagamento').addEventListener('submit', async e => 
   // Si arriva qui solo se il pagamento NON è andato a buon fine.
   if(error){
     mostraErrore(error.message || 'Pagamento non riuscito. Controlla i dati della carta.');
-    bottone.disabled = false;
-    bottone.innerHTML = 'Paga <span id="totBtn">' + document.getElementById('totale').textContent + '</span>';
+    ripristinaBottone();
   }
 });
 

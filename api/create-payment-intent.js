@@ -20,6 +20,16 @@ const PREZZO_SINGOLO = 3990;
 const OFFERTE = { 1: 3990, 2: 6990, 3: 9490 };   // 1, 2 o 3 coperte
 const SPEDIZIONE = 0;   // gratuita
 
+// Codice di prova SEGRETO: se su Vercel esiste la variabile CODICE_TEST
+// (almeno 8 caratteri) e il link del checkout contiene ?codice=<quel valore>,
+// l'ordine costa 0,50 € (il minimo che Stripe accetta in euro).
+// Per disattivarlo basta cancellare la variabile su Vercel.
+const IMPORTO_TEST = 50;
+function codiceTestValido(codice){
+  const segreto = process.env.CODICE_TEST || '';
+  return segreto.length >= 8 && typeof codice === 'string' && codice === segreto;
+}
+
 // ---------- nome sull'estratto conto della carta ----------
 // Il cliente vede "<PREFISSO ACCOUNT>* PIJAMAMANIA". Il prefisso è quello del
 // tuo account Stripe (max 10 caratteri); il totale non può superare 22.
@@ -62,9 +72,16 @@ module.exports = async (req, res) => {
 
     const qta = taglie.length;
     const pieno = PREZZO_SINGOLO * qta;
-    const importo = OFFERTE[qta] + SPEDIZIONE;
+    const test = codiceTestValido(body.codice);
+    const importo = test ? IMPORTO_TEST : OFFERTE[qta] + SPEDIZIONE;
     const nomeVariante = taglie.map(t => VARIANTI[t].nome).join(' + ');
 
+    // 1) solo preventivo: il checkout mostra prezzi e modulo carta senza creare nulla su Stripe
+    if (body.solo_prezzo) {
+      return res.status(200).json({ importo, pieno, nomeVariante, qta, test });
+    }
+
+    // 2) il cliente ha cliccato "Paga": ora si crea il pagamento
     const dati = {
       amount: importo,
       currency: 'eur',
@@ -75,7 +92,8 @@ module.exports = async (req, res) => {
         taglia: taglie.join(','),
         taglia_nome: nomeVariante,
         qta: String(qta),
-        sconto_applicato: ((pieno - importo) / 100).toFixed(2).replace('.', ',') + ' €'
+        sconto_applicato: ((pieno - importo) / 100).toFixed(2).replace('.', ',') + ' €',
+        ordine_di_prova: test ? 'si' : 'no'
       }
     };
 
@@ -99,7 +117,8 @@ module.exports = async (req, res) => {
       importo,
       pieno,
       nomeVariante,
-      qta
+      qta,
+      test
     });
 
   } catch (err) {
