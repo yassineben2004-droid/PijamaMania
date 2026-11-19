@@ -1,7 +1,30 @@
-# PijamaMania — Coperta Squalo Indossabile
+# PijamaMania — negozio multi-prodotto
 
-Sito a prodotto singolo con checkout **sul tuo dominio** (Stripe Payment Element).
-Il cliente non viene mai mandato su una pagina Stripe.
+Homepage-catalogo + una pagina per prodotto + carrello unico con sconto bundle,
+checkout **sul tuo dominio** (Stripe Payment Element).
+
+## Come è fatto (novembre 2026)
+
+| File | Cosa fa |
+|---|---|
+| `catalogo.js` | **unica fonte di verità**: prodotti, prezzi, taglie, colori, ciabatte, sconti bundle. Lo usano sia il sito sia il server |
+| `strumenti/genera-pagine.js` | testi delle pagine + genera `index.html` e le pagine prodotto |
+| `stile.css`, `carrello.js`, `pagina-prodotto.js` | grafica, carrello (salvato nel browser), logica pagina prodotto |
+| `index.html` | catalogo (GENERATO) |
+| `coperta-squalo.html`, `pigiama-anatra.html`, `pigiama-stranger-things.html`, `pigiama-stitch.html`, `pigiama-dragon-trainer.html` | pagine prodotto (GENERATE) |
+
+**Per cambiare prezzi, taglie o sconti:** modifica `catalogo.js`, poi lancia
+`node strumenti/genera-pagine.js` e fai push. Il server legge gli stessi prezzi, quindi non serve toccare altro.
+**Per cambiare i testi:** modifica `strumenti/genera-pagine.js` e rilancialo. Non modificare a mano le pagine generate.
+
+Sconto bundle attuale: 2 pezzi -10%, 3 o più -15%, su qualsiasi combinazione.
+
+### Foto da caricare in `img/`
+`anatra-1…6.jpg`, `stranger-1…6.jpg`, `stitch-1…6.jpg`, `sdentato-1…6.jpg` (la 1 è la principale e va
+anche nel catalogo; la 2-5 vanno nei blocchi descrizione). Finché manca, il sito mostra un riquadro col nome del file.
+
+---
+(Sotto: note originali del sito squalo.)
 
 ## File
 

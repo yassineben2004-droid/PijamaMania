@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎉</text></svg>">
 <title>Ordine confermato — PijamaMania</title>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
@@ -22,11 +22,13 @@ padding:16px 30px;border-radius:13px;font-weight:800;text-decoration:none;font-s
 .attesa{color:var(--grigio)}
 </style>
 </head>
-<body>
+<body data-no-cart>
 <div class="box" id="box">
   <div class="attesa">Verifico il pagamento…</div>
 </div>
 
+<script src="catalogo.js"></script>
+<script src="carrello.js"></script>
 <script>
 const STRIPE_PUBLIC_KEY = 'pk_live_51HUprcHeIz0GVO4KOlGb3ZdLrn4OfWrqgr7tjmMkFYiPK0RiaeM11B11CTFK67MptXSM47rhaZTfjq2F3e9W4xMO00HXznXO8v';
 
@@ -44,11 +46,12 @@ function mostra(icona, titolo, testo, colore){
 }
 
 if(!clientSecret){
-  mostra('🦈', 'Nessun ordine da mostrare', 'Sembra che tu sia arrivato qui per sbaglio.', '#e7f2fc');
+  mostra('🛒', 'Nessun ordine da mostrare', 'Sembra che tu sia arrivato qui per sbaglio.', '#e7f2fc');
 } else {
   stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
     switch(paymentIntent && paymentIntent.status){
       case 'succeeded':
+        Carrello.svuota();   // ordine fatto: il carrello riparte vuoto
         mostra('✓', 'Ordine confermato!',
           'Grazie, abbiamo ricevuto il pagamento. Ti arriva subito una email di conferma e, appena il pacco parte, il codice di tracciamento.',
           '#e6f6ee');

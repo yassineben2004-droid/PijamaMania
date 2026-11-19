@@ -1,23 +1,13 @@
 // Funzione serverless (Vercel / Netlify Functions).
 // I prezzi stanno QUI e solo qui: il browser non deve mai poterli decidere,
-// altrimenti chiunque apra la console compra la coperta a 1 centesimo.
+// altrimenti chiunque apra la console compra i pigiami a 1 centesimo.
 
 const Stripe = require('stripe');
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const PRODOTTO = 'Coperta Squalo Indossabile';
-
-// taglie (stesso prezzo per tutte)
-const VARIANTI = {
-  baby:   { nome: 'Bimbo 2-5 anni' },
-  junior: { nome: 'Bambino 6-10 anni' },
-  teen:   { nome: 'Ragazzo 11-15 anni' },
-  mega:   { nome: 'Adulto 16+' }
-};
-
-// prezzi in centesimi — QUESTI sono quelli che il cliente paga davvero
-const PREZZO_SINGOLO = 3990;
-const OFFERTE = { 1: 3990, 2: 6990, 3: 9490 };   // 1, 2 o 3 coperte
+// Prezzi, prodotti, taglie e sconti bundle stanno in catalogo.js (radice del sito):
+// lo stesso file che usa il sito per mostrare i prezzi, così non vanno mai fuori sincrono.
+const C = require('../catalogo.js');
 const SPEDIZIONE = 0;   // gratuita
 
 // Codice di prova SEGRETO: se su Vercel esiste la variabile CODICE_TEST
@@ -63,38 +53,59 @@ module.exports = async (req, res) => {
   try {
     const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
 
-    // taglie: ["mega","baby"] — accetta anche il vecchio formato {taglia, qta}
-    let taglie = Array.isArray(body.taglie) ? body.taglie
-      : (body.taglia ? Array(Math.min(Math.max(parseInt(body.qta, 10) || 1, 1), 3)).fill(body.taglia) : []);
-    taglie = taglie.map(String);
-    if (taglie.length < 1 || taglie.length > 3 || !taglie.every(t => VARIANTI[t]))
-      return res.status(400).json({ errore: 'Taglie non valide' });
+    // articoli: [{p:'anatra', colore:'nero', taglia:'L', ciabatte:'39-41'}, ...]
+    // accetta anche il vecchio formato della pagina squalo: {taglie:['mega','baby']} o {taglia, qta}
+    let articoli = Array.isArray(body.articoli) ? body.articoli : null;
+    if (!articoli) {
+      const vecchie = Array.isArray(body.taglie) ? body.taglie
+        : (body.taglia ? Array(Math.min(Math.max(parseInt(body.qta, 10) || 1, 1), 3)).fill(body.taglia) : []);
+      articoli = vecchie.map(t => ({ p: 'squalo', taglia: String(t) }));
+    }
+    if (articoli.length < 1 || articoli.length > C.maxPezzi)
+      return res.status(400).json({ errore: 'Carrello non valido' });
+    // tengo solo i campi che conosco, così nessuno può infilare roba strana
+    articoli = articoli.map(a => {
+      const prod = a && C.prodotti[a.p];
+      if (!prod) return { p: '' };
+      const pulito = { p: a.p };
+      prod.opzioni.forEach(o => { if (a[o.id] != null) pulito[o.id] = String(a[o.id]); });
+      return pulito;
+    });
+    const conto = C.totale(articoli);
+    if (!conto) return res.status(400).json({ errore: 'Articoli non validi' });
 
-    const qta = taglie.length;
-    const pieno = PREZZO_SINGOLO * qta;
+    const qta = conto.righe.length;
+    const pieno = conto.pieno;
     const test = codiceTestValido(body.codice);
-    const importo = test ? IMPORTO_TEST : OFFERTE[qta] + SPEDIZIONE;
-    const nomeVariante = taglie.map(t => VARIANTI[t].nome).join(' + ');
+    const importo = test ? IMPORTO_TEST : conto.importo + SPEDIZIONE;
+    const righe = conto.righe.map(r => ({ nome: r.breve, dettagli: r.dettagli, prezzo: r.prezzo }));
+    const nomeVariante = conto.righe.map(r => r.breve + ' (' + r.dettagli + ')').join(' + ');
 
     // 1) solo preventivo: il checkout mostra prezzi e modulo carta senza creare nulla su Stripe
     if (body.solo_prezzo) {
-      return res.status(200).json({ importo, pieno, nomeVariante, qta, test });
+      return res.status(200).json({ importo, pieno, pct: conto.pct, righe, nomeVariante, qta, test });
     }
 
     // 2) il cliente ha cliccato "Paga": ora si crea il pagamento
+    const prodottiDiversi = [...new Set(conto.righe.map(r => r.breve))];
+    const metadata = {
+      prodotto: prodottiDiversi.length === 1 ? conto.righe[0].nome : 'PijamaMania — ' + qta + ' articoli',
+      taglia_nome: nomeVariante.slice(0, 490),
+      qta: String(qta),
+      sconto_applicato: ((pieno - importo) / 100).toFixed(2).replace('.', ',') + ' €' + (conto.pct && !test ? ' (bundle -' + conto.pct + '%)' : ''),
+      ordine_di_prova: test ? 'si' : 'no'
+    };
+    // un campo per articolo (Stripe accetta max 500 caratteri per valore)
+    conto.righe.forEach((r, i) => {
+      metadata['articolo_' + (i + 1)] = (r.nome + ' — ' + r.dettagli + ' — ' + (r.prezzo / 100).toFixed(2).replace('.', ',') + ' €').slice(0, 490);
+    });
+
     const dati = {
       amount: importo,
       currency: 'eur',
       automatic_payment_methods: { enabled: true },   // carte, Apple Pay, Google Pay, Klarna se attivi
-      description: `${PRODOTTO} — ${nomeVariante}`,
-      metadata: {
-        prodotto: PRODOTTO,
-        taglia: taglie.join(','),
-        taglia_nome: nomeVariante,
-        qta: String(qta),
-        sconto_applicato: ((pieno - importo) / 100).toFixed(2).replace('.', ',') + ' €',
-        ordine_di_prova: test ? 'si' : 'no'
-      }
+      description: ('PijamaMania — ' + nomeVariante).slice(0, 990),
+      metadata
     };
 
     const suffisso = await suffissoEstratto();
@@ -116,6 +127,8 @@ module.exports = async (req, res) => {
       clientSecret: intent.client_secret,
       importo,
       pieno,
+      pct: conto.pct,
+      righe,
       nomeVariante,
       qta,
       test

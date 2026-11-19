@@ -20,7 +20,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g,
   c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
 
-function mailCliente({ numero, nome, prodotto, variante, qta, totale, indirizzo }){
+function mailCliente({ numero, nome, prodotto, variante, qta, totale, indirizzo, articoli }){
   const riga = (a, b) => `<tr><td style="padding:8px 0;color:#5b6b82">${a}</td><td style="padding:8px 0;text-align:right;color:#0b1b33;font-weight:600">${b}</td></tr>`;
   const html = `
 <div style="background:#eef3f9;padding:24px 12px;font-family:Helvetica,Arial,sans-serif">
@@ -29,14 +29,15 @@ function mailCliente({ numero, nome, prodotto, variante, qta, totale, indirizzo 
       <img src="${SITO}/img/logo.png" alt="PijamaMania" height="38" style="height:38px;width:auto">
     </div>
     <div style="padding:28px 24px">
-      <h1 style="margin:0 0 10px;font-size:22px;color:#0b1b33">Grazie${nome ? ', ' + esc(nome) : ''}! Ordine confermato 🦈</h1>
+      <h1 style="margin:0 0 10px;font-size:22px;color:#0b1b33">Grazie${nome ? ', ' + esc(nome) : ''}! Ordine confermato 🎉</h1>
       <p style="margin:0 0 20px;color:#5b6b82;font-size:15px;line-height:1.5">
         Abbiamo ricevuto il tuo pagamento. Appena il pacco parte ti scriviamo di nuovo con il codice di tracciamento.
       </p>
       <table style="width:100%;border-collapse:collapse;font-size:14.5px;border-top:1px solid #e3e9f1;border-bottom:1px solid #e3e9f1">
         ${riga('Numero ordine', esc(numero))}
-        ${riga('Prodotto', esc(prodotto))}
-        ${riga(Number(qta) > 1 ? 'Taglie' : 'Taglia', esc(variante))}
+        ${articoli.length
+          ? articoli.map((a, i) => riga(articoli.length > 1 ? 'Articolo ' + (i + 1) : 'Articolo', esc(a))).join('')
+          : riga('Prodotto', esc(prodotto)) + riga(Number(qta) > 1 ? 'Taglie' : 'Taglia', esc(variante))}
         ${riga('Quantità', esc(qta))}
         ${riga('Spedizione', 'Gratuita')}
         ${riga('<b style="color:#0b1b33">Totale pagato</b>', '<b>' + esc(totale) + '</b>')}
@@ -54,8 +55,7 @@ function mailCliente({ numero, nome, prodotto, variante, qta, totale, indirizzo 
 `Grazie${nome ? ', ' + nome : ''}! Ordine confermato.
 
 Numero ordine: ${numero}
-Prodotto: ${prodotto}
-Taglia: ${variante}
+${articoli.length ? articoli.map((a, i) => '- ' + a).join('\n') : 'Prodotto: ' + prodotto + '\nTaglia: ' + variante}
 Quantità: ${qta}
 Spedizione: gratuita
 Totale pagato: ${totale}
@@ -100,9 +100,11 @@ module.exports = async (req, res) => {
   const dati = {
     numero: 'PM-' + id.slice(-8).toUpperCase(),
     nome: (s.name || '').split(' ')[0],
-    prodotto: m.prodotto || 'Coperta Squalo Indossabile',
+    prodotto: m.prodotto || 'PijamaMania',
     variante: m.taglia_nome || '',
     qta: m.qta || '1',
+    articoli: Object.keys(m).filter(k => /^articolo_\d+$/.test(k))
+      .sort((a, b) => +a.split('_')[1] - +b.split('_')[1]).map(k => m[k]),
     totale: euro(pi.amount),
     indirizzo: [s.name, a.line1, [a.postal_code, a.city].filter(Boolean).join(' '), s.phone ? 'Tel. ' + s.phone : '']
       .filter(Boolean)
@@ -118,7 +120,7 @@ module.exports = async (req, res) => {
     await posta.sendMail({
       from: `"PijamaMania" <${process.env.GMAIL_USER}>`,
       to: pi.receipt_email,
-      subject: `Ordine ${dati.numero} confermato 🦈`,
+      subject: `Ordine ${dati.numero} confermato 🎉`,
       html, text
     });
 
@@ -127,12 +129,11 @@ module.exports = async (req, res) => {
       from: `"PijamaMania Ordini" <${process.env.GMAIL_USER}>`,
       to: process.env.GMAIL_USER,
       replyTo: pi.receipt_email,
-      subject: `🦈 Nuovo ordine ${dati.numero} — ${dati.variante} × ${dati.qta} — ${dati.totale}`,
+      subject: `🛒 Nuovo ordine ${dati.numero} — ${dati.qta} pz — ${dati.totale}`,
       text:
 `Nuovo ordine ${dati.numero}
 
-${dati.prodotto}
-Taglia: ${dati.variante}
+${dati.articoli.length ? dati.articoli.map(a => '- ' + a).join('\n') : dati.prodotto + '\nTaglia: ' + dati.variante}
 Quantità: ${dati.qta}
 Sconto: ${m.sconto_applicato || '0%'}
 Totale incassato: ${dati.totale}

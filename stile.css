@@ -1,0 +1,196 @@
+/* Stile comune PijamaMania — homepage e pagine prodotto */
+:root{
+  --notte:#0b1f3d;        /* header e testi forti */
+  --sabbia:#fbf7f1;       /* sfondo pagina, caldo */
+  --sabbia2:#f3ece1;      /* sezioni alternate */
+  --bianco:#ffffff;
+  --testo:#17243a;
+  --grigio:#5e6b80;
+  --linea:#e7dfd2;
+  --accento:#3b8fd6;      /* colore del prodotto (cambia pagina per pagina) */
+  --accento-chiaro:#e7f2fc;
+  --corallo:#ff6a3d;      /* bottone acquisto */
+  --corallo-scuro:#e9542a;
+  --ok:#1f9d6b;
+  --oro:#f5b301;
+  --r:18px;
+  --font:'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--sabbia);color:var(--testo);line-height:1.55;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font-family:var(--font)}
+
+.topbar{background:var(--corallo);color:#fff;text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.3px;padding:9px 14px}
+header{display:flex;align-items:center;justify-content:center;padding:14px 16px;background:var(--notte);position:sticky;top:0;z-index:20}
+header img{height:36px;width:auto}
+.nav-home{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#c9d5e6;font-size:13px;text-decoration:none;font-weight:600}
+
+.wrap{max-width:1080px;margin:0 auto;padding:0 18px}
+section{padding:44px 0}
+h2{font-size:27px;font-weight:800;letter-spacing:-.7px;line-height:1.15;margin-bottom:22px;color:var(--notte)}
+
+/* foto mancante: riquadro con il nome del file atteso */
+.manca{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:repeating-linear-gradient(45deg,#f3ece1,#f3ece1 12px,#efe6d8 12px,#efe6d8 24px);color:#8a7a62;font-size:12px;font-weight:700;text-align:center;padding:8px;word-break:break-all}
+.manca b{font-size:26px}
+
+/* ---------- prodotto ---------- */
+.hero{display:grid;gap:22px;padding-top:20px}
+@media(min-width:900px){.hero{grid-template-columns:1.05fr .95fr;align-items:start;gap:48px;padding-top:36px}}
+.gallery{display:grid;gap:10px}
+@media(min-width:900px){.gallery{position:sticky;top:84px}}
+.shot{position:relative;aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;background:var(--bianco)}
+.shot img{width:100%;height:100%;object-fit:cover}
+#fotoMain{transition:opacity .18s}
+.principale{touch-action:pan-y;box-shadow:0 10px 30px rgba(11,31,61,.08)}
+.thumbs{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+.thumbs .shot{border-radius:11px;cursor:pointer;border:2px solid transparent;padding:0;opacity:.65;transition:.15s}
+.thumbs .shot.on{border-color:var(--accento);opacity:1}
+.thumbs .manca{font-size:0}.thumbs .manca b{font-size:14px}
+.dots{display:flex;justify-content:center;gap:6px}
+.dots i{width:6px;height:6px;border-radius:50%;background:#d6cdbf;transition:.15s}
+.dots i.on{background:var(--accento);width:16px;border-radius:3px}
+@media(min-width:900px){.dots{display:none}}
+
+.badge{display:inline-block;background:var(--accento-chiaro);color:var(--accento);font-size:11.5px;font-weight:800;letter-spacing:1px;padding:6px 11px;border-radius:999px;margin-bottom:12px}
+h1{font-size:31px;line-height:1.1;letter-spacing:-1px;font-weight:800;color:var(--notte);margin-bottom:10px}
+@media(min-width:900px){h1{font-size:40px}}
+.stelle{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--grigio);text-decoration:none;margin-bottom:14px}
+.stelle b{color:var(--oro);letter-spacing:1px;font-size:16px}
+.stelle u{color:var(--testo)}
+.prezzo-top{font-size:24px;font-weight:800;color:var(--notte);margin-bottom:12px}
+.prezzo-top small{font-size:13px;font-weight:600;color:var(--grigio);margin-left:6px}
+.sub{color:var(--grigio);font-size:16px;margin-bottom:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{background:var(--bianco);border:1px solid var(--linea);border-radius:9px;padding:7px 11px;font-size:13px}
+
+.etichetta{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;font-weight:800;letter-spacing:.8px;color:var(--notte);margin:0 0 10px}
+.etichetta a{font-weight:600;letter-spacing:0;color:var(--accento);font-size:13px}
+
+/* offerta */
+.offerte{display:grid;gap:10px;margin-bottom:22px}
+.offerta{position:relative;display:flex;align-items:center;gap:13px;width:100%;text-align:left;background:var(--bianco);border:2px solid var(--linea);border-radius:14px;padding:15px 15px;cursor:pointer;transition:.15s;color:var(--testo)}
+.offerta:hover{border-color:#c9d9ea}
+.offerta.on{border-color:var(--accento);background:#fcfcff;box-shadow:0 6px 18px rgba(11,31,61,.09)}
+.radio{flex:0 0 20px;height:20px;border-radius:50%;border:2px solid #c6ccd6;position:relative}
+.offerta.on .radio{border-color:var(--accento)}
+.offerta.on .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accento)}
+.offerta .cosa{flex:1;min-width:0}
+.offerta .t{font-weight:800;font-size:15.5px;color:var(--notte)}
+.offerta .s{font-size:12.5px;color:var(--grigio);margin-top:1px}
+.offerta .risp{display:inline-block;margin-top:5px;background:#e6f6ee;color:var(--ok);font-size:11.5px;font-weight:800;padding:3px 7px;border-radius:6px}
+.offerta .prezzi{text-align:right;white-space:nowrap}
+.offerta .p{font-weight:800;font-size:18px;color:var(--notte)}
+.offerta .cad{font-size:11.5px;color:var(--grigio)}
+.tag{position:absolute;top:-10px;right:14px;background:var(--corallo);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:4px 9px;border-radius:999px}
+.tag.blu{background:var(--notte)}
+
+/* opzioni per ogni pezzo */
+.pezzo{background:var(--bianco);border:1px solid var(--linea);border-radius:14px;padding:13px 13px 4px;margin-bottom:10px}
+.pezzo .n{font-size:13px;font-weight:800;color:var(--notte);margin-bottom:8px}
+.opz{margin-bottom:10px}
+.opz .l{font-size:12px;font-weight:700;color:var(--grigio);margin-bottom:6px}
+.pillole{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:7px}
+.pill{background:var(--bianco);border:1.5px solid var(--linea);border-radius:11px;padding:9px 4px;cursor:pointer;text-align:center;color:var(--testo);transition:.15s}
+.pill b{display:block;font-size:13.5px;color:var(--notte)}
+.pill span{display:block;font-size:11px;color:var(--grigio);margin-top:1px}
+.pill.on{border-color:var(--notte);background:var(--notte)}
+.pill.on b,.pill.on span{color:#fff}
+
+.natale{display:flex;gap:10px;align-items:center;background:#fff4ec;border:1px solid #ffd9c6;border-radius:12px;padding:11px 13px;font-size:13.5px;margin:16px 0 14px;color:#7a3416}
+.natale[hidden]{display:none}
+
+.cta{display:block;width:100%;background:var(--corallo);color:#fff;border:0;border-radius:14px;padding:19px;font-size:17px;font-weight:800;letter-spacing:.2px;cursor:pointer;text-align:center;box-shadow:0 10px 26px rgba(255,106,61,.28);transition:.15s;text-decoration:none}
+.cta:hover{background:var(--corallo-scuro);transform:translateY(-1px)}
+
+.fiducia{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.fiducia div{background:var(--bianco);border:1px solid var(--linea);border-radius:11px;padding:10px 6px;text-align:center;font-size:12px;line-height:1.3;color:var(--grigio)}
+.fiducia div b{display:block;font-size:18px;margin-bottom:3px}
+.pagamenti{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin-top:12px}
+.pagamenti span{border:1px solid var(--linea);background:var(--bianco);border-radius:6px;padding:4px 8px;font-size:11px;font-weight:800;color:#3b4658;letter-spacing:.2px}
+
+/* ---------- descrizione ---------- */
+.desc{background:var(--bianco);border-top:1px solid var(--linea);border-bottom:1px solid var(--linea)}
+.blocco{display:grid;gap:20px;align-items:center;margin-bottom:46px}
+.blocco:last-child{margin-bottom:0}
+@media(min-width:800px){.blocco{grid-template-columns:1fr 1fr;gap:48px}.blocco.inv .media{order:2}}
+.media{position:relative;aspect-ratio:1/1;border-radius:var(--r);overflow:hidden;background:var(--sabbia2)}
+.media img{width:100%;height:100%;object-fit:cover}
+.blocco h3{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;color:var(--notte)}
+.blocco p{color:var(--grigio);font-size:16px}
+
+/* ---------- taglie ---------- */
+.tabella{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--bianco);border-radius:14px;overflow:hidden}
+.tabella th,.tabella td{text-align:left;padding:13px 12px;border-bottom:1px solid var(--linea)}
+.tabella tr:last-child td{border-bottom:0}
+.tabella th{font-size:11.5px;letter-spacing:.8px;color:var(--grigio);font-weight:800;background:var(--sabbia2)}
+.tabella td:first-child{font-weight:800;color:var(--notte)}
+.nota-taglie{margin-top:14px;font-size:14px;color:var(--grigio)}
+
+/* ---------- recensioni ---------- */
+.rec-sez{background:var(--sabbia2)}
+.recensioni{display:grid;gap:24px;align-items:start}
+@media(min-width:800px){.recensioni{grid-template-columns:.8fr 1.4fr;gap:40px}}
+.voto{font-size:52px;font-weight:800;color:var(--notte);line-height:1}
+.voto small{font-size:22px;color:var(--oro)}
+.voto-sub{color:var(--grigio);font-size:14.5px;margin:6px 0 16px}
+.barra{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--grigio);margin-bottom:7px}
+.barra i{flex:1;height:7px;border-radius:4px;background:#e2d9cb;overflow:hidden;position:relative}
+.barra i::after{content:"";position:absolute;inset:0;width:var(--w);background:var(--oro)}
+.rec{background:var(--bianco);border:1px solid var(--linea);padding:17px;border-radius:14px;margin-bottom:12px}
+.rec .st{color:var(--oro);letter-spacing:1px;margin-bottom:6px}
+.rec p{font-size:15px;color:var(--testo)}
+.rec .chi{font-size:12.5px;color:var(--grigio);margin-top:9px}
+
+/* ---------- altri prodotti ---------- */
+.altri{background:var(--sabbia2)}
+.griglia{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:800px){.griglia{grid-template-columns:repeat(4,1fr);gap:16px}}
+.griglia.cinque{grid-template-columns:repeat(2,1fr)}
+@media(min-width:800px){.griglia.cinque{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:1000px){.griglia.cinque{grid-template-columns:repeat(5,1fr)}}
+.card{display:flex;flex-direction:column;background:var(--bianco);border:1px solid var(--linea);border-radius:16px;overflow:hidden;text-decoration:none;color:var(--testo);transition:.15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(11,31,61,.08)}
+.card .shot{border-radius:0}
+.card .info{padding:12px 13px 14px;display:flex;flex-direction:column;gap:3px;flex:1}
+.card .nm{font-weight:800;font-size:15px;color:var(--notte);line-height:1.2}
+.card .pr{font-weight:800;font-size:15px}
+.card .pr small{font-weight:600;color:var(--grigio);font-size:12px}
+.card .vai{margin-top:auto;padding-top:8px;font-size:13px;font-weight:800;color:var(--corallo)}
+.card .etq{position:absolute;top:10px;left:10px;z-index:2;background:var(--notte);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.7px;padding:4px 8px;border-radius:999px}
+
+/* ---------- faq ---------- */
+details{border-bottom:1px solid var(--linea);padding:17px 0}
+summary{font-weight:700;font-size:16px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;color:var(--notte)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";color:var(--accento);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--grigio);font-size:15px;margin-top:10px}
+details a{color:var(--accento)}
+
+footer{background:var(--notte);color:#aebbd0;padding:34px 0 110px;font-size:13px}
+footer a{display:inline-block;margin:0 16px 10px 0;color:#dfe7f3}
+.ragione{margin-top:14px;font-size:12px;line-height:1.75}
+
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid var(--linea);padding:11px 16px calc(11px + env(safe-area-inset-bottom));display:flex;align-items:center;gap:12px;transform:translateY(130%);transition:.25s;box-shadow:0 -6px 20px rgba(11,31,61,.08)}
+.sticky.on{transform:translateY(0)}
+.sticky .p{font-size:17px;font-weight:800;white-space:nowrap;color:var(--notte);line-height:1.15}
+.sticky .p small{display:block;font-size:11px;font-weight:600;color:var(--grigio)}
+.sticky .cta{padding:15px 18px;font-size:15px;box-shadow:none}
+@media(min-width:900px){.sticky{display:none}}
+
+/* ---------- homepage ---------- */
+.home-hero{background:var(--notte);color:#fff;padding:46px 0 40px;text-align:center}
+.home-hero h1{color:#fff;font-size:34px;max-width:700px;margin:0 auto 12px}
+@media(min-width:900px){.home-hero h1{font-size:48px}}
+.home-hero p{color:#c9d5e6;font-size:17px;max-width:560px;margin:0 auto 22px}
+.home-hero .cta{display:inline-block;width:auto;padding:16px 30px}
+.bundle-box{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:640px;margin:26px auto 0}
+.bundle-box div{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:13px 8px;font-size:13px;color:#c9d5e6;line-height:1.3}
+.bundle-box b{display:block;color:#fff;font-size:21px;margin-bottom:2px}
+.vantaggi{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:800px){.vantaggi{grid-template-columns:repeat(4,1fr)}}
+.vantaggi div{background:var(--bianco);border:1px solid var(--linea);border-radius:14px;padding:16px 14px;font-size:14px;color:var(--grigio)}
+.vantaggi b{display:block;color:var(--notte);font-size:15px;margin:6px 0 3px}
+.vantaggi .em{font-size:26px}

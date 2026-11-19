@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦈</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛒</text></svg>">
 <title>Checkout — PijamaMania</title>
 <script src="https://js.stripe.com/v3/"></script>
 <style>
@@ -38,7 +38,11 @@ h2:first-of-type{margin-top:0}
 /* riepilogo */
 .riepilogo{background:var(--bianco);border:1px solid var(--linea);border-radius:16px;padding:18px 20px}
 @media(min-width:880px){.riepilogo{position:sticky;top:24px}}
-.riga-prod{display:flex;gap:14px;align-items:center;padding-bottom:14px;border-bottom:1px solid var(--linea)}
+.righe{padding-bottom:6px;border-bottom:1px solid var(--linea)}
+.riga-prod{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.riga-prod .pr{margin-left:auto;font-weight:700;font-size:14px;white-space:nowrap}
+.mini .em{display:flex;width:100%;height:100%;align-items:center;justify-content:center;font-size:24px}
+.modifica{display:inline-block;font-size:13px;margin:4px 0 2px}
 .mini{width:62px;height:62px;border-radius:11px;flex:0 0 62px;background:var(--sabbia);overflow:hidden}
 .mini img{width:100%;height:100%;object-fit:cover}
 .riga-prod .nome{font-weight:800;font-size:15px;color:var(--notte)}
@@ -77,11 +81,11 @@ input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)
 @keyframes gira{to{transform:rotate(360deg)}}
 </style>
 </head>
-<body>
+<body data-no-cart>
 
 <header>
-  <img src="img/logo.png" alt="PijamaMania" style="height:35px;width:auto">
-  <a class="indietro" href="index.html">← Torna al prodotto</a>
+  <a href="index.html"><img src="img/logo.png" alt="PijamaMania" style="height:35px;width:auto"></a>
+  <a class="indietro" href="index.html">← Torna al negozio</a>
 </header>
 
 <div class="wrap">
@@ -138,15 +142,10 @@ input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)
     </div>
 
     <div class="riepilogo">
-      <div class="riga-prod">
-        <div class="mini"><img src="img/squalo-1.jpg" alt="" onerror="this.style.display='none'"></div>
-        <div>
-          <div class="nome">Coperta Squalo Indossabile</div>
-          <div class="var" id="variante">Caricamento…</div>
-        </div>
-      </div>
+      <div class="righe" id="righe"><div class="var">Caricamento…</div></div>
+      <a class="modifica" href="index.html" id="modifica">Modifica il carrello</a>
       <div class="tot-riga"><span>Subtotale</span><span id="subtotale">—</span></div>
-      <div class="tot-riga" id="rigaSconto" style="display:none"><span>Risparmio offerta</span><span class="gratis" id="sconto">—</span></div>
+      <div class="tot-riga" id="rigaSconto" style="display:none"><span>Sconto bundle</span><span class="gratis" id="sconto">—</span></div>
       <div class="tot-riga"><span>Spedizione</span><span class="gratis">Gratuita</span></div>
       <div class="tot-riga finale"><span>Totale</span><span id="totale">—</span></div>
     </div>
@@ -154,19 +153,24 @@ input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)
   </div>
 </div>
 
+<script src="catalogo.js"></script>
+<script src="carrello.js"></script>
 <script>
 // ⚠️ Sostituisci con la TUA chiave pubblicabile Stripe (pk_test_... in test, pk_live_... in produzione).
 // Questa chiave è pubblica: può stare nel codice del sito senza problemi.
 const STRIPE_PUBLIC_KEY = 'pk_live_51HUprcHeIz0GVO4KOlGb3ZdLrn4OfWrqgr7tjmMkFYiPK0RiaeM11B11CTFK67MptXSM47rhaZTfjq2F3e9W4xMO00HXznXO8v';
 
 const params = new URLSearchParams(location.search);
-// ?t=mega,baby  (vecchio formato ?taglia=mega&qta=2 ancora accettato)
-let taglie = (params.get('t') || '').split(',').filter(Boolean);
-if (!taglie.length) {
+// Articoli dal carrello. Il vecchio link della pagina squalo (?t=mega,baby o ?taglia=mega&qta=2)
+// funziona ancora: diventa un carrello di sole coperte squalo.
+let articoli = Carrello.leggi();
+const vecchio = (params.get('t') || '').split(',').filter(Boolean);
+if (vecchio.length) articoli = vecchio.slice(0, 3).map(t => ({ p: 'squalo', taglia: t }));
+else if (params.get('taglia')) {
   const q = Math.min(Math.max(parseInt(params.get('qta') || '1', 10) || 1, 1), 3);
-  taglie = Array(q).fill(params.get('taglia') || 'mega');
+  articoli = Array(q).fill(0).map(() => ({ p: 'squalo', taglia: params.get('taglia') }));
 }
-taglie = taglie.slice(0, 3);
+if (!articoli.length) location.replace('index.html');
 
 const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const mostraErrore = m => { const e = document.getElementById('errore'); e.textContent = m; e.style.display = 'block'; };
@@ -178,7 +182,7 @@ async function chiediServer(extra){
   const r = await fetch('/api/create-payment-intent', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ taglie, codice, ...extra })
+    body: JSON.stringify({ articoli, codice, ...extra })
   });
   if(!r.ok) throw new Error('risposta ' + r.status);
   return r.json();
@@ -198,16 +202,29 @@ async function avvia(){
     return;
   }
 
-  const { importo, pieno, nomeVariante, qta, test } = dati;
+  const { importo, pieno, pct, righe, test } = dati;
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 
-  // riepilogo: i numeri arrivano dal server, non dalla pagina precedente
-  document.getElementById('variante').textContent  = (qta > 1 ? qta + ' coperte · ' : '') + nomeVariante;
+  // riepilogo: i numeri arrivano dal server, non dal browser
+  document.getElementById('righe').innerHTML = righe.map((r, i) => {
+    const prod = CATALOGO.prodotti[articoli[i].p];
+    return `<div class="riga-prod">
+      <div class="mini"><img src="${prod.foto[0]}" alt="" onerror="this.outerHTML='<span class=em>${prod.emoji}</span>'"></div>
+      <div><div class="nome">${esc(r.nome)}</div><div class="var">${esc(r.dettagli)}</div></div>
+      <div class="pr">${euro(r.prezzo)}</div>
+    </div>`;
+  }).join('');
+  if (vecchio.length || params.get('taglia')) document.getElementById('modifica').href = 'coperta-squalo.html';
+  else {
+    document.getElementById('modifica').onclick = e => { e.preventDefault(); Carrello.apri(); };
+    window.addEventListener('pm-carrello', () => location.reload());   // se cambia il carrello, ricalcolo tutto
+  }
   document.getElementById('subtotale').textContent = euro(pieno);
   document.getElementById('totale').textContent    = euro(importo);
   document.getElementById('totBtn').textContent    = euro(importo);
 
   if(pieno > importo){
-    document.querySelector('#rigaSconto span').textContent = test ? 'Ordine di prova' : 'Risparmio offerta';
+    document.querySelector('#rigaSconto span').textContent = test ? 'Ordine di prova' : 'Sconto bundle -' + pct + '%';
     document.getElementById('sconto').textContent = '− ' + euro(pieno - importo);
     document.getElementById('rigaSconto').style.display = 'flex';
   }
