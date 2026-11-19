@@ -20,7 +20,7 @@ checkout **sul tuo dominio** (Stripe Payment Element).
 Sconto bundle attuale: 2 pezzi -10%, 3 o più -15%, su qualsiasi combinazione.
 
 ### Foto da caricare in `img/`
-`anatra-1…6.jpg`, `stranger-1…6.jpg`, `stitch-1…6.jpg`, `sdentato-1…6.jpg` (la 1 è la principale e va
+Foto generate con Higgsfield (GPT Image 2.5) dalle foto fornitore: `anatra-1…6`, `stranger-1…5`, `stitch-1…5`, `sdentato-1…6` (.jpg).
 anche nel catalogo; la 2-5 vanno nei blocchi descrizione). Finché manca, il sito mostra un riquadro col nome del file.
 
 ---

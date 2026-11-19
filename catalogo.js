@@ -78,7 +78,7 @@ const CATALOGO = {
       emoji: '👹',
       accento: '#c8102e',
       unita: ['pigiama', 'pigiami'],
-      foto: [1, 2, 3, 4, 5, 6].map(n => 'img/stranger-' + n + '.jpg'),
+      foto: [1, 2, 3, 4, 5].map(n => 'img/stranger-' + n + '.jpg'),
       opzioni: [
         { id: 'taglia', nome: 'Taglia', valori: [
           { id: 'KS',  nome: 'Bimbo S',  sub: '110-120 cm' },
@@ -100,7 +100,7 @@ const CATALOGO = {
       emoji: '💙',
       accento: '#2f7fd8',
       unita: ['pigiama', 'pigiami'],
-      foto: [1, 2, 3, 4, 5, 6].map(n => 'img/stitch-' + n + '.jpg'),
+      foto: [1, 2, 3, 4, 5].map(n => 'img/stitch-' + n + '.jpg'),
       opzioni: [
         { id: 'taglia', nome: 'Taglia', valori: [
           { id: 'S',   nome: 'S',   sub: '145-155 cm' },
@@ -113,8 +113,8 @@ const CATALOGO = {
     },
 
     sdentato: {
-      nome: 'Pigiama Dragon Trainer Sdentato',
-      breve: 'Pigiama Sdentato',
+      nome: 'Pigiama Dragon Trainer',
+      breve: 'Pigiama Dragon Trainer',
       pagina: 'pigiama-dragon-trainer.html',
       prezzo: 4490,
       emoji: '🐉',
@@ -122,6 +122,10 @@ const CATALOGO = {
       unita: ['pigiama', 'pigiami'],
       foto: [1, 2, 3, 4, 5, 6].map(n => 'img/sdentato-' + n + '.jpg'),
       opzioni: [
+        { id: 'colore', nome: 'Colore', valori: [
+          { id: 'nero',   nome: 'Nero',   sub: 'Sdentato' },
+          { id: 'bianco', nome: 'Bianco', sub: 'Furia Chiara' }
+        ], predef: 'nero' },
         { id: 'taglia', nome: 'Taglia', valori: [
           { id: 'S',   nome: 'S',   sub: '145-155 cm' },
           { id: 'M',   nome: 'M',   sub: '155-165 cm' },

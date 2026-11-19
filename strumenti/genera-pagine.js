@@ -56,10 +56,10 @@ const T = {
     sub: "Cappuccio gigante con occhi e becco giallo, maniche ad ala: allarghi le braccia e diventi un'anatra a grandezza naturale. Largo, morbido e impossibile da prendere sul serio.",
     chips: ['☁️ Pile morbidissimo', '🪽 Maniche ad ala', '🖤🤍 Bianco o nero', '🥿 Ciabatte abbinate'],
     blocchi: [
-      ['img/anatra-2.jpg', '', 'Allarghi le braccia, spuntano le ali', "Le maniche sono tagliate ad ala: quando apri le braccia il pigiama si trasforma in un'anatra intera. Il cappuccio oversize con occhi e becco giallo fa il resto. Funziona sul divano, funziona ancora meglio quando entri in una stanza piena di gente."],
-      ['img/anatra-3.jpg', '', 'Le mani escono quando servono', "Dentro le maniche ci sono due aperture: tiri fuori le mani per scrivere, mangiare o giocare alla play, e quando hai finito le rimetti dentro al caldo. Niente maniche da arrotolare ogni cinque minuti."],
-      ['img/anatra-4.jpg', '', 'Metà coperta, metà pigiama', "Il taglio è volutamente oversize: ti muovi libero, ti siedi a gambe incrociate, ti addormenti sul divano. Il pile è morbido sulla pelle e tiene caldo senza pesare — è una coperta che ha deciso di diventare anatra."],
-      ['img/anatra-5.jpg', '', 'In coppia rende il doppio', "Bianco e nero, uno per lei e uno per lui, o per i coinquilini che non si prendono sul serio. Aggiungi le ciabatte anatra abbinate e il look è completo dalla testa ai piedi."]
+      ['img/anatra-4.jpg', '', 'Allarghi le braccia, spuntano le ali', "Le maniche sono tagliate ad ala: quando apri le braccia il pigiama si trasforma in un'anatra intera. Il cappuccio oversize con occhi e becco giallo fa il resto. Funziona sul divano, funziona ancora meglio quando entri in una stanza piena di gente."],
+      ['img/anatra-6.jpg', '', 'Le mani escono quando servono', "Dentro le maniche ci sono due aperture: tiri fuori le mani per scrivere, mangiare o giocare alla play, e quando hai finito le rimetti dentro al caldo. Niente maniche da arrotolare ogni cinque minuti."],
+      ['img/anatra-3.jpg', '', 'Metà coperta, metà pigiama', "Il taglio è volutamente oversize: ti muovi libero, ti siedi a gambe incrociate, ti addormenti sul divano. Il pile è morbido sulla pelle e tiene caldo senza pesare — è una coperta che ha deciso di diventare anatra."],
+      ['img/anatra-2.jpg', '', 'In coppia rende il doppio', "Bianco e nero, uno per lei e uno per lui, o per i coinquilini che non si prendono sul serio. Aggiungi le ciabatte anatra abbinate e il look è completo dalla testa ai piedi."]
     ],
     tabella: { col: ['TAGLIA', 'ALTEZZA CONSIGLIATA'], righe: [
       ['S', 'fino a 152 cm'], ['M', '152-160 cm'], ['L', '160-165 cm'], ['XL', '165-172 cm'], ['XXL', '172-185 cm']] },
@@ -78,12 +78,12 @@ const T = {
     meta: "La tuta pigiama del Demogorgone di Stranger Things con cappuccio a petali. Pile invernale, zip intera, taglie da bambino (110 cm) ad adulto. Spedizione gratuita.",
     badge: 'DIRETTAMENTE DAL SOTTOSOPRA 👹',
     sub: "La tuta intera con il cappuccio a petali del Demogorgone: lo apri e sembra di avere il mostro del Sottosopra in testa. Per le maratone di Stranger Things, Halloween e chi non ha paura di niente.",
-    chips: ['🔥 Pile invernale', '🤐 Zip intera davanti', '👨‍👩‍👧 Dai 110 cm all\'adulto'],
+    chips: ['🔥 Pile grigio venato', '🌺 Cappuccio a petali', '👨‍👩‍👧 Dai 110 cm all\'adulto'],
     blocchi: [
-      ['img/stranger-2.jpg', '', 'Il cappuccio che si apre come una corolla', "Il dettaglio che lo rende inconfondibile: il cappuccio ha i petali del Demogorgone attorno al viso. Chi ha visto la serie lo riconosce da lontano, chi non l'ha vista chiede subito cos'è."],
-      ['img/stranger-3.jpg', '', 'Zip davanti, polsini chiusi', "Si apre tutto con una zip frontale lunga, quindi lo metti e lo togli in un attimo. Polsini e caviglie sono stretti per non far entrare il freddo: è un pigiama vero, non un costume da una sera."],
-      ['img/stranger-4.jpg', '', 'Una taglia per ogni membro del party', "Dalle taglie bambino da 110 cm fino all'adulto da 190: si veste tutta la famiglia, come i ragazzi di Hawkins. Con il bundle scegli una taglia diversa per ogni pezzo."],
-      ['img/stranger-5.jpg', '', 'Maratona, Halloween, carnevale', "Divano e ultima stagione in loop, festa di Halloween o carnevale coi bambini: è lo stesso pigiama, cambia solo quanta gente ti fa le foto."]
+      ['img/stranger-3.jpg', '', 'Il cappuccio che si apre come una corolla', "Il dettaglio che lo rende inconfondibile: il cappuccio ha i petali del Demogorgone attorno al viso. Chi ha visto la serie lo riconosce da lontano, chi non l'ha vista chiede subito cos'è."],
+      ['img/stranger-2.jpg', '', 'Zip davanti, Demogorgone sulla schiena', "Si apre tutto con una zip frontale lunga, quindi lo metti e lo togli in un attimo. Dietro c'è il ricamo del Demogorgone, polsini e caviglie sono stretti per non far entrare il freddo: è un pigiama vero, non un costume da una sera."],
+      ['img/stranger-5.jpg', '', 'Una taglia per ogni membro del party', "Dalle taglie bambino da 110 cm fino all'adulto da 190: si veste tutta la famiglia, come i ragazzi di Hawkins. Con il bundle scegli una taglia diversa per ogni pezzo."],
+      ['img/stranger-4.jpg', '', 'Maratona, Halloween, carnevale', "Divano e ultima stagione in loop, festa di Halloween o carnevale coi bambini: è lo stesso pigiama, cambia solo quanta gente ti fa le foto."]
     ],
     tabella: { col: ['TAGLIA', 'ALTEZZA'], righe: [
       ['Bimbo S', '110-120 cm'], ['Bimbo M', '120-130 cm'], ['Bimbo L', '130-140 cm'], ['Bimbo XL', '140-155 cm'],
@@ -104,10 +104,10 @@ const T = {
     sub: "Il kigurumi blu di Stitch, con cappuccio e orecchie giganti. Flanella morbida, taglio largo: ci stai comodo sul divano e fai un figurone alla festa.",
     chips: ['☁️ Flanella morbida', '👂 Orecchie giganti', '📏 Dalla S alla XXL'],
     blocchi: [
-      ['img/stitch-2.jpg', '', 'Orecchie giganti, effetto garantito', "Tiri su il cappuccio e sei Stitch: orecchie grandi, faccia riconoscibile e quel blu che si vede da un chilometro. È il pigiama che fa sorridere chiunque ti passi davanti."],
-      ['img/stitch-3.jpg', '', 'Flanella che non vuoi più togliere', "È in flanella morbida e calda: avvolge senza stringere e non pizzica. Lo metti la sera dopo cena e la mattina ti accorgi che ci hai anche dormito."],
-      ['img/stitch-4.jpg', '', 'Taglio largo, comodo davvero', "Il modello kigurumi è ampio per costruzione: ti siedi a gambe incrociate, ti stendi, ti muovi. Scegli in base all'altezza e sei a posto."],
-      ['img/stitch-5.jpg', '', 'Divano, pigiama party, carnevale', "Serata film, pigiama party con le amiche, carnevale o festa a tema: con lo stesso pigiama li copri tutti. E al prezzo di Stitch prenderne due per il bundle è un attimo."]
+      ['img/stitch-3.jpg', '', 'Orecchie giganti, effetto garantito', "Tiri su il cappuccio e sei Stitch: orecchie grandi, faccia riconoscibile e quel blu che si vede da un chilometro. È il pigiama che fa sorridere chiunque ti passi davanti."],
+      ['img/stitch-2.jpg', '', 'Flanella che non vuoi più togliere', "È in flanella morbida e calda: avvolge senza stringere e non pizzica. Lo metti la sera dopo cena e la mattina ti accorgi che ci hai anche dormito."],
+      ['img/stitch-5.jpg', '', 'Taglio largo, comodo davvero', "Il modello kigurumi è ampio per costruzione: ti siedi a gambe incrociate, ti stendi, ti muovi. Scegli in base all'altezza e sei a posto."],
+      ['img/stitch-4.jpg', '', 'Divano, pigiama party, carnevale', "Serata film, pigiama party con le amiche, carnevale o festa a tema: con lo stesso pigiama li copri tutti. E al prezzo di Stitch prenderne due per il bundle è un attimo."]
     ],
     tabella: { col: ['TAGLIA', 'ALTEZZA'], righe: [
       ['S', '145-155 cm'], ['M', '155-165 cm'], ['L', '165-175 cm'], ['XL', '175-185 cm'], ['XXL', '185-195 cm']] },
@@ -121,24 +121,24 @@ const T = {
   },
 
   sdentato: {
-    titolo: 'Pigiama Dragon Trainer Sdentato — PijamaMania',
-    meta: "Il pigiama kigurumi di Sdentato da Dragon Trainer: cappuccio con i grandi occhi, ali e scaglie nere. Flanella morbida, taglie S-XXL. Spedizione gratuita.",
+    titolo: 'Pigiama Dragon Trainer Sdentato e Furia Chiara — PijamaMania',
+    meta: "Il pigiama kigurumi di Dragon Trainer: Sdentato nero o Furia Chiara bianca, con occhi sul cappuccio, ali e coda. Flanella morbida, taglie S-XXL. Spedizione gratuita.",
     badge: 'PER CHI HA SEMPRE VOLUTO UN DRAGO 🐉',
-    sub: "Il kigurumi nero di Sdentato, con i grandi occhi sul cappuccio e le ali sulla schiena. Per chi ha sempre voluto un drago — e ha deciso di diventarlo.",
-    chips: ['☁️ Flanella morbida', '🪽 Ali e scaglie', '📏 Dalla S alla XXL'],
+    sub: "Il kigurumi di Dragon Trainer in due versioni: Sdentato nero con i grandi occhi verdi, o Furia Chiara bianca e azzurra. Ali, coda e cappuccio con le corna: per chi ha sempre voluto un drago — e ha deciso di diventarlo.",
+    chips: ['🖤🤍 Nero o bianco', '🪽 Ali e coda', '☁️ Flanella morbida'],
     blocchi: [
-      ['img/sdentato-2.jpg', '', 'Il Furia Buia più comodo di Berk', "Scaglie nere, grandi occhi sul cappuccio e le ali: il pigiama riprende tutti i dettagli che rendono Sdentato riconoscibile al primo sguardo. Tu ci metti solo la faccia soddisfatta."],
-      ['img/sdentato-3.jpg', '', 'Caldo come il respiro di un drago', "È in flanella morbida e calda: perfetto per le sere d'inverno, per dormire o per stare sul divano senza coperta. Avvolge senza stringere e non pizzica."],
-      ['img/sdentato-4.jpg', '', 'Largo, comodo, da vivere', "Il taglio kigurumi è ampio: ti muovi, ti siedi a gambe incrociate, giochi, ti addormenti. Scegli la taglia in base all'altezza e non ci pensi più."],
-      ['img/sdentato-5.jpg', '', 'Maratona Dragon Trainer, cosplay, feste', "Rivedere tutta la saga in una sera, andare a una festa a tema o a carnevale: con Sdentato addosso sei sempre il personaggio più fotografato della stanza."]
+      ['img/sdentato-4.jpg', '', 'Il Furia Buia più comodo di Berk', "Grandi occhi verdi, corna e orecchie sul cappuccio, ali sulle braccia e coda con la pinna rossa: il pigiama riprende tutti i dettagli che rendono Sdentato riconoscibile al primo sguardo. Tu ci metti solo la faccia soddisfatta."],
+      ['img/sdentato-3.jpg', '', 'Oppure la Furia Chiara', "Preferisci il bianco? La versione Furia Chiara è bianca con pancia e ali azzurre, occhi azzurri sul cappuccio. Calda uguale, solo più luminosa — e in coppia con Sdentato è l'abbinata perfetta."],
+      ['img/sdentato-2.jpg', '', 'Largo, comodo, da vivere', "Il taglio kigurumi è ampio e in flanella morbida: ti muovi, ti siedi a gambe incrociate, giochi alla play, ti addormenti sul divano. Scegli la taglia in base all'altezza e non ci pensi più."],
+      ['img/sdentato-6.jpg', '', 'Serata Dragon Trainer, cosplay, feste', "Rivedere tutta la saga in una sera con gli amici, una festa a tema o il carnevale: con un drago addosso sei sempre il più fotografato della stanza. Con il bundle vestite tutto il gruppo."]
     ],
     tabella: { col: ['TAGLIA', 'ALTEZZA'], righe: [
       ['S', '145-155 cm'], ['M', '155-165 cm'], ['L', '165-175 cm'], ['XL', '175-185 cm'], ['XXL', '185-195 cm']] },
     notaTaglie: "Scegli in base alla tua <b>altezza</b>: il kigurumi è largo, quindi la corporatura conta poco. Se sei a cavallo fra due taglie, prendi la più grande.",
     faq: [
+      ['Che colori ci sono?', 'Due: nero (Sdentato) e bianco con dettagli azzurri (Furia Chiara). Con 2 o 3 pigiami puoi scegliere il colore di ognuno.'],
       ['Veste largo?', "Sì, il kigurumi è un modello ampio. Scegli la taglia in base all'altezza."],
       ['Di che materiale è?', 'Flanella morbida in 100% poliestere, calda e piacevole sulla pelle.'],
-      ['Va bene come costume?', 'Sì: è un pigiama vero, ma è perfetto anche per cosplay, carnevale e feste a tema.'],
       ['Si può lavare?', 'Sì, in lavatrice a ciclo delicato con acqua fredda. Evita candeggina e ferro da stiro.']
     ]
   }
