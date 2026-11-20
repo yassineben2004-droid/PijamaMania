@@ -126,9 +126,15 @@ input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)
             <input type="text" id="citta" placeholder="Lodi" required>
           </div>
         </div>
-        <div class="campo">
-          <label for="telefono">Telefono (per il corriere)</label>
-          <input type="text" id="telefono" placeholder="333 1234567">
+        <div class="campo due">
+          <div>
+            <label for="provincia">Provincia (sigla)</label>
+            <input type="text" id="provincia" placeholder="LO" maxlength="2" pattern="[A-Za-z]{2}" title="Sigla della provincia, es. MI" autocapitalize="characters" required>
+          </div>
+          <div>
+            <label for="telefono">Telefono (per il corriere)</label>
+            <input type="tel" id="telefono" placeholder="333 1234567" required>
+          </div>
         </div>
 
         <h2>PAGAMENTO</h2>
@@ -311,6 +317,7 @@ document.getElementById('form-pagamento').addEventListener('submit', async e => 
           line1:       document.getElementById('via').value,
           postal_code: document.getElementById('cap').value,
           city:        document.getElementById('citta').value,
+          state:       document.getElementById('provincia').value.trim().toUpperCase(),
           country:     'IT'
         }
       }

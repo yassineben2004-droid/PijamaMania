@@ -124,8 +124,25 @@ Statistiche: su Vercel → progetto → **Analytics** → Enable. Le visite a `g
    Tu mi hai detto "7-12 giorni lavorativi": cambia il numero nella FAQ perché corrisponda
    a quello che fa davvero il fornitore, altrimenti arrivano chargeback e Stripe blocca i fondi.
 
-## Ricevere gli ordini
+## Ricevere ed evadere gli ordini (automatico)
 
-Per ora i pagamenti li vedi nella dashboard Stripe: ogni transazione porta con sé
-taglia, quantità, sconto applicato e indirizzo di spedizione. Per avere una email
-automatica a ogni ordine serve un webhook Stripe: te lo aggiungo quando il test gira.
+A ogni pagamento riuscito Stripe chiama `api/stripe-webhook.js`, che manda:
+1. la conferma al cliente (se la pagina "grazie" non l'ha già fatto),
+2. una copia a te con il CSV dell'ordine allegato,
+3. l'ordine al fornitore (in inglese, con il CSV allegato, tu in copia).
+Gli ordini di prova (codice test) non vanno mai al fornitore. I pagamenti degli altri negozi sullo stesso account Stripe vengono ignorati.
+
+**Configurazione (una volta sola):**
+1. Stripe → Sviluppatori → Webhook → Aggiungi endpoint
+   - URL: `https://pijamamania.it/api/stripe-webhook`
+   - Evento: `payment_intent.succeeded`
+   - copia il "Segreto di firma" (`whsec_...`)
+2. Vercel → progetto → Settings → Environment Variables:
+   - `STRIPE_WEBHOOK_SECRET` = `whsec_...`
+   - `FORNITORE_EMAIL` = email del fornitore
+   - `ORDINI_CHIAVE` = una parola segreta lunga (min 12 caratteri)
+3. Vercel → Deployments → Redeploy (le variabili valgono dal deploy successivo).
+
+**Export CSV quando vuoi** (dati clienti, non condividere il link):
+`https://pijamamania.it/api/ordini-csv?chiave=ORDINI_CHIAVE` → ultimi 7 giorni
+aggiungi `&giorni=30` per più giorni, `&solo_nuovi=1` per gli ordini non ancora mandati al fornitore.
