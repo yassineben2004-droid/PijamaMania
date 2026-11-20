@@ -23,28 +23,28 @@ const T = {
 
   squalo: {
     titolo: 'Coperta Squalo Indossabile — PijamaMania',
-    meta: 'La coperta squalo indossabile: infili i piedi nella coda e ti avvolgi. Pile flanellato ultra morbido, 4 taglie da bambino ad adulto. Spedizione gratuita in Italia.',
+    meta: 'La coperta squalo indossabile: infili i piedi nella coda e ti avvolgi. Pile flanellato ultra morbido, 4 taglie, dalla M alla XXL. Spedizione gratuita in Italia.',
     og: 'img/anteprima.jpg',
     badge: 'PERFETTA DA REGALARE 🎁',
     stelle: true,
     sub: 'Infili i piedi nella coda, tiri su il resto e sei dentro uno squalo. Metà coperta, metà sacco a pelo, in pile morbidissimo che non pizzica.',
-    chips: ['☁️ Pile ultra morbido', '🧼 In lavatrice', "👨‍👩‍👧 Dai 2 anni all'adulto"],
+    chips: ['☁️ Pile ultra morbido', '🧼 In lavatrice', '📏 Dalla M alla XXL'],
     blocchi: [
       ['img/desc-1.jpg', '', 'Entri dalla coda e sparisci', "Non è una coperta da tenere su con le mani: i piedi entrano nella pinna caudale e il corpo scivola dentro la sacca. Da lì in poi puoi muoverti sul divano, allungare le gambe, girarti — lo squalo resta addosso."],
       ['img/desc-2.png', 'center 25%', 'Pile flanellato, caldo dal primo secondo', "Interno in flanella di pile spazzolata: trattiene il calore senza pesare e non dà quella sensazione ruvida dei pile economici. Sta bene anche sulla pelle nuda, che è il vero test."],
       ['img/squalo-6.jpg', 'center 30%', 'Il regalo che nessuno si aspetta', "Compleanni, Natale, Secret Santa fra colleghi: è il pacco che blocca la stanza per cinque minuti. E a differenza di quasi tutti i regali buffi, poi viene usato davvero tutte le sere."],
       ['img/squalo-4.jpg', '', 'In lavatrice e via', "Lavaggio in lavatrice a ciclo delicato con acqua fredda, asciugatrice a bassa temperatura. Niente candeggina, niente ferro da stiro: il pile mantiene morbidezza e forma lavaggio dopo lavaggio."]
     ],
-    tabella: { col: ['TAGLIA', 'ETÀ', 'LUNGHEZZA'], righe: [
-      ['Bimbo', '2-5 anni', '84-150 cm'], ['Bambino', '6-10 anni', '152-170 cm'],
-      ['Ragazzo', '11-15 anni', '173-190 cm'], ['Adulto', '16+ anni', '193-211 cm']] },
-    notaTaglie: "Scegli in base all'età: per tutti gli adulti va bene la taglia <b>Adulto</b>. Il modello è largo per costruzione, quindi non conta la corporatura. Se sei a cavallo fra due taglie, prendi la più grande.",
+    tabella: { col: ['TAGLIA', 'PESO CONSIGLIATO', 'LUNGHEZZA CAPO'], righe: [
+      ['M', '50-60 kg', '150 cm'], ['L', '60-70 kg', '160 cm'],
+      ['XL', '70-80 kg', '180 cm'], ['XXL', '80-100 kg', '200 cm']] },
+    notaTaglie: "Scegli in base al <b>peso</b>. Le misure possono variare di ±1 cm. Se sei a cavallo fra due taglie, prendi la più grande: è fatta per starci dentro comodi.",
     recensioni: true,
     faq: [
       ['Come si indossa esattamente?', "Ti siedi, infili i piedi nell'apertura della coda e tiri su il corpo della coperta fino a dove vuoi. Puoi lasciarla all'altezza della vita o tirarla fino alle spalle."],
-      ['Posso scegliere taglie diverse nell\'offerta?', 'Sì: con 2 o 3 coperte scegli la taglia di ognuna. Per esempio una Adulto e una Bimbo per mamma e figlio.'],
+      ['Posso scegliere taglie diverse nell\'offerta?', 'Sì: con 2 o 3 coperte scegli la taglia di ognuna. Per esempio una L per te e una XXL per lui.'],
       ['Di che materiale è fatta?', 'Pile flanellato ultra morbido, lo stesso tipo di tessuto delle coperte invernali di qualità. Leggero da indossare ma caldo.'],
-      ['Va bene anche per i bambini?', 'Sì, la taglia Bimbo parte dai 2 anni. Per i più piccoli consigliamo comunque la presenza di un adulto durante l\'uso.'],
+      ['Va bene anche per i bambini?', 'È pensata per ragazzi e adulti: la taglia più piccola, la M, è per chi pesa dai 50 kg in su. Per i bambini piccoli è troppo grande.'],
       ['Si può lavare?', 'Sì, lavatrice a ciclo delicato con acqua fredda e asciugatrice a bassa temperatura. Evita candeggina e ferro da stiro.']
     ]
   },

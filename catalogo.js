@@ -31,11 +31,11 @@ const CATALOGO = {
       foto: [1, 2, 3, 4, 5, 6].map(n => 'img/squalo-' + n + '.jpg'),
       opzioni: [
         { id: 'taglia', nome: 'Taglia', valori: [
-          { id: 'baby',   nome: 'Bimbo',   sub: '2-5 anni' },
-          { id: 'junior', nome: 'Bambino', sub: '6-10 anni' },
-          { id: 'teen',   nome: 'Ragazzo', sub: '11-15 anni' },
-          { id: 'mega',   nome: 'Adulto',  sub: '16+ anni' }
-        ], predef: 'mega' }
+          { id: 'M',   nome: 'M',   sub: '50-60 kg' },
+          { id: 'L',   nome: 'L',   sub: '60-70 kg' },
+          { id: 'XL',  nome: 'XL',  sub: '70-80 kg' },
+          { id: 'XXL', nome: 'XXL', sub: '80-100 kg' }
+        ], predef: 'L' }
       ]
     },
 
