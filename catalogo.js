@@ -24,7 +24,7 @@ const CATALOGO = {
       nome: 'Pigiama Barbie Girl Luminoso',
       breve: 'Pigiama Barbie Luminoso',
       pagina: 'pigiama-barbie-luminoso.html',
-      prezzo: 3990,
+      prezzo: 4490,
       emoji: '💖',
       accento: '#e0287d',
       unita: ['pigiama', 'pigiami'],

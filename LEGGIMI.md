@@ -9,6 +9,7 @@ checkout **sul tuo dominio** (Stripe Payment Element).
 |---|---|
 | `catalogo.js` | **unica fonte di verità**: prodotti, prezzi, taglie, colori, ciabatte, sconti bundle. Lo usano sia il sito sia il server |
 | `strumenti/genera-pagine.js` | testi delle pagine + genera `index.html` e le pagine prodotto |
+| `tracciamento.js` | misura il sito: view_item, add_to_cart, begin_checkout, purchase… verso Vercel Analytics (senza cookie) e, se compili `GA4_ID` / `META_PIXEL_ID` in cima al file, Google Analytics 4 e Meta Pixel (con banner consenso) |
 | `stile.css`, `carrello.js`, `pagina-prodotto.js` | grafica, carrello (salvato nel browser), logica pagina prodotto |
 | `index.html` | catalogo (GENERATO) |
 | `coperta-squalo.html`, `pigiama-anatra.html`, `pigiama-stranger-things.html`, `pigiama-stitch.html`, `pigiama-dragon-trainer.html`, `pigiama-barbie-luminoso.html` | pagine prodotto (GENERATE) |

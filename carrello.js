@@ -78,7 +78,8 @@ function monta() {
   pan.querySelector('#cartChiudi').onclick = chiudi;
   pan.addEventListener('click', e => {
     const b = e.target.closest('[data-via]'); if (!b) return;
-    const a = leggi(); a.splice(+b.dataset.via, 1); salva(a); disegna();
+    const a = leggi(); const tolto = a.splice(+b.dataset.via, 1); salva(a); disegna();
+    if (window.PM && tolto.length) PM.track('remove_from_cart', tolto);
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') chiudi(); });
 
@@ -153,7 +154,7 @@ function suggerimenti(presenti) {
     `</div></div>`;
 }
 
-function apri() { disegna(); document.getElementById('cartVelo').classList.add('on'); document.getElementById('cartPan').classList.add('on'); }
+function apri() { if (window.PM) PM.track('view_cart', leggi()); disegna(); document.getElementById('cartVelo').classList.add('on'); document.getElementById('cartPan').classList.add('on'); }
 function chiudi() { document.getElementById('cartVelo').classList.remove('on'); document.getElementById('cartPan').classList.remove('on'); }
 
 function aggiungi(articoli) {

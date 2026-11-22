@@ -369,6 +369,7 @@ ${FOOTER}
 </div>
 
 <script src="catalogo.js"></script>
+<script src="tracciamento.js"></script>
 <script src="carrello.js"></script>
 <script src="pagina-prodotto.js"></script>
 ${ANALYTICS}
@@ -429,6 +430,7 @@ ${FAQ_COMUNI.map(([q, a], i) => `  <details${i ? '' : ' open'}><summary>${q}</su
 ${FOOTER}
 
 <script src="catalogo.js"></script>
+<script src="tracciamento.js"></script>
 <script src="carrello.js"></script>
 ${ANALYTICS}
 </body>

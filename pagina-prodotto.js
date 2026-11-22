@@ -78,7 +78,7 @@ function compra() {
   const messi = Carrello.aggiungi(pezzi);
   if (messi < pezzi.length) alertCarrelloPieno();
   Carrello.apri();
-  try { window.va && window.va('event', { name: 'aggiungi_carrello', data: { prodotto: ID, pezzi: messi } }); } catch (e) {}
+  if (messi) PM.track('add_to_cart', pezzi.slice(0, messi));
 }
 function alertCarrelloPieno() {
   const box = document.getElementById('cartCorpo');
@@ -93,6 +93,7 @@ new IntersectionObserver(([e]) => sticky.classList.toggle('on', !e.isIntersectin
   { rootMargin: '-60px 0px 0px 0px' }).observe(document.getElementById('compra'));
 
 aggiorna();
+PM.track('view_item', [{ p: ID }]);   // visita della pagina prodotto
 
 /* ---------- Natale: 2 giorni di preparazione + 12 di consegna (caso peggiore) entro il 23/12 ---------- */
 (function () {

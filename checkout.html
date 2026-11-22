@@ -160,6 +160,7 @@ input:focus{border-color:var(--squalo);box-shadow:0 0 0 3px rgba(59,143,214,.15)
 </div>
 
 <script src="catalogo.js"></script>
+<script src="tracciamento.js"></script>
 <script src="carrello.js"></script>
 <script>
 // ⚠️ Sostituisci con la TUA chiave pubblicabile Stripe (pk_test_... in test, pk_live_... in produzione).
@@ -177,6 +178,7 @@ else if (params.get('taglia')) {
   articoli = Array(q).fill(0).map(() => ({ p: 'squalo', taglia: params.get('taglia') }));
 }
 if (!articoli.length) location.replace('index.html');
+else PM.track('begin_checkout', articoli);
 
 const euro = c => (c / 100).toFixed(2).replace('.', ',') + ' €';
 const mostraErrore = m => { const e = document.getElementById('errore'); e.textContent = m; e.style.display = 'block'; };
@@ -280,6 +282,7 @@ document.getElementById('form-pagamento').addEventListener('submit', async e => 
   e.preventDefault();
   if(!elements) return;
 
+  PM.track('add_payment_info', articoli);
   const bottone = document.getElementById('paga');
   bottone.disabled = true;
   bottone.innerHTML = '<span class="spinner"></span>Elaborazione…';
