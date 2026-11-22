@@ -21,6 +21,30 @@ const S2 = C.sconti[2], S3 = C.sconti[3];
    ============================================================ */
 const T = {
 
+  barbie: {
+    titolo: 'Pigiama Barbie Girl che si illumina al buio — PijamaMania',
+    meta: "Il pigiama Barbie girl bianco e rosa che si illumina al buio: tacchi, cuori, specchi e rossetti diventano rosa neon quando spegni la luce. Taglie S-XL. Spedizione gratuita.",
+    og: 'img/barbie-2.jpg',
+    badge: 'IL PIGIAMA VIRALE DEL MOMENTO 💖',
+    sub: "Con la luce accesa è un pigiama bianco e rosa con tacchi, cuori, specchi e rossetti. Spegni la luce e la stampa si accende di rosa neon. Sì, al buio brilla davvero.",
+    chips: ['✨ Si illumina al buio', '💖 Stampa Barbie girl', '📏 Dalla S alla XL'],
+    blocchi: [
+      ['img/barbie-2.jpg', '', 'Spegni la luce e guarda cosa succede', "La stampa è fatta con un inchiostro fotoluminescente: assorbe la luce della stanza e, quando spegni, tutti i disegni si accendono di rosa. Nessuna batteria, nessun filo: funziona da solo, ogni sera."],
+      ['img/barbie-3.jpg', '', 'Camicia e pantalone, stile pigiama da diva', "Taglio classico a camicia con colletto, bottoni e taschino, bordini rosa e pantalone lungo coordinato. Tessuto liscio e morbido, effetto satinato: sembra un pigiama da hotel di lusso, ma rosa."],
+      ['img/barbie-4.jpg', '', 'Tacchi, cuori, specchi, rossetti', "La stampa è un catalogo di tutto quello che una Barbie girl ama: tacchi a spillo, fiocchi, cuori, specchietti e rossetti. Di giorno è carino, di notte è uno spettacolo."],
+      ['img/barbie-1.jpg', '', 'Il regalo per lei che fa urlare', "Natale, compleanno, Secret Santa fra amiche: lo scarta, sorride, poi spegne la luce e urla. È il regalo che finisce nelle storie Instagram la sera stessa."]
+    ],
+    tabella: { col: ['TAGLIA', 'ALTEZZA CONSIGLIATA'], righe: [
+      ['S', '155-162 cm'], ['M', '162-168 cm'], ['L', '168-174 cm'], ['XL', '174-180 cm']] },
+    notaTaglie: "Scegli in base alla tua <b>altezza</b>. Se sei a cavallo fra due taglie o ti piace più comodo, prendi la più grande.",
+    faq: [
+      ['Si illumina davvero al buio?', "Sì. La stampa si carica con la luce della stanza (o con la torcia del telefono) e quando spegni brilla di rosa. Più è stata alla luce, più a lungo brilla."],
+      ['Servono batterie o cavi?', 'No, niente batterie e niente parti elettriche: è l\'inchiostro della stampa che si illumina. Si indossa e si lava come un pigiama normale.'],
+      ['Di che tessuto è?', 'Tessuto liscio e morbido effetto satinato, leggero e piacevole sulla pelle.'],
+      ['Si può lavare?', 'Sì, in lavatrice a ciclo delicato con acqua fredda, al rovescio per proteggere la stampa. Evita candeggina, asciugatrice ad alta temperatura e ferro da stiro sulla stampa.']
+    ]
+  },
+
   squalo: {
     titolo: 'Coperta Squalo Indossabile — PijamaMania',
     meta: 'La coperta squalo indossabile: infili i piedi nella coda e ti avvolgi. Pile flanellato ultra morbido, 4 taglie, dalla M alla XXL. Spedizione gratuita in Italia.',
@@ -356,8 +380,8 @@ ${ANALYTICS}
 /* ---------- homepage / catalogo ---------- */
 function homepage() {
   const min = Math.min(...C.ordine.map(id => C.prodotti[id].prezzo));
-  const etichette = { squalo: 'BEST SELLER', anatra: 'NOVITÀ', stranger: 'NOVITÀ', stitch: 'PREZZO TOP', sdentato: 'NOVITÀ' };
-  return `${head({ titolo: 'PijamaMania — Pigiami e coperte indossabili che fanno ridere tutta la casa', meta: `Coperta squalo, pigiama anatra, Stranger Things, Stitch e Dragon Trainer. Pile morbidissimo, spedizione gratuita in Italia, 2 pezzi -${S2}% e 3 o più -${S3}%.`, url: SITO + '/', og: 'img/anteprima.jpg', emoji: '🦈', tipo: 'website' })}
+  const etichette = { barbie: 'VIRALE 🔥', squalo: 'BEST SELLER', anatra: 'NOVITÀ', stranger: 'NOVITÀ', stitch: 'PREZZO TOP', sdentato: 'NOVITÀ' };
+  return `${head({ titolo: 'PijamaMania — Pigiami e coperte indossabili che fanno ridere tutta la casa', meta: `Pigiama Barbie luminoso, coperta squalo, pigiama anatra, Stranger Things, Stitch e Dragon Trainer. Pile morbidissimo, spedizione gratuita in Italia, 2 pezzi -${S2}% e 3 o più -${S3}%.`, url: SITO + '/', og: 'img/anteprima.jpg', emoji: '🦈', tipo: 'website' })}
 <body>
 
 ${TOPBAR}

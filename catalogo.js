@@ -16,9 +16,28 @@ const CATALOGO = {
   sconti: { 2: 10, 3: 15 },        // 2 pezzi -10%, 3 o più -15%
   maxPezzi: 10,                      // pezzi massimi per ordine
 
-  ordine: ['squalo', 'anatra', 'stranger', 'stitch', 'sdentato'],
+  ordine: ['barbie', 'squalo', 'anatra', 'stranger', 'stitch', 'sdentato'],
 
   prodotti: {
+
+    barbie: {
+      nome: 'Pigiama Barbie Girl Luminoso',
+      breve: 'Pigiama Barbie Luminoso',
+      pagina: 'pigiama-barbie-luminoso.html',
+      prezzo: 3990,
+      emoji: '💖',
+      accento: '#e0287d',
+      unita: ['pigiama', 'pigiami'],
+      foto: [1, 2, 3, 4, 5].map(n => 'img/barbie-' + n + '.jpg'),
+      opzioni: [
+        { id: 'taglia', nome: 'Taglia', valori: [
+          { id: 'S',  nome: 'S',  sub: '155-162 cm' },
+          { id: 'M',  nome: 'M',  sub: '162-168 cm' },
+          { id: 'L',  nome: 'L',  sub: '168-174 cm' },
+          { id: 'XL', nome: 'XL', sub: '174-180 cm' }
+        ], predef: 'M' }
+      ]
+    },
 
     squalo: {
       nome: 'Coperta Squalo Indossabile',

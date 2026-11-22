@@ -11,7 +11,7 @@ checkout **sul tuo dominio** (Stripe Payment Element).
 | `strumenti/genera-pagine.js` | testi delle pagine + genera `index.html` e le pagine prodotto |
 | `stile.css`, `carrello.js`, `pagina-prodotto.js` | grafica, carrello (salvato nel browser), logica pagina prodotto |
 | `index.html` | catalogo (GENERATO) |
-| `coperta-squalo.html`, `pigiama-anatra.html`, `pigiama-stranger-things.html`, `pigiama-stitch.html`, `pigiama-dragon-trainer.html` | pagine prodotto (GENERATE) |
+| `coperta-squalo.html`, `pigiama-anatra.html`, `pigiama-stranger-things.html`, `pigiama-stitch.html`, `pigiama-dragon-trainer.html`, `pigiama-barbie-luminoso.html` | pagine prodotto (GENERATE) |
 
 **Per cambiare prezzi, taglie o sconti:** modifica `catalogo.js`, poi lancia
 `node strumenti/genera-pagine.js` e fai push. Il server legge gli stessi prezzi, quindi non serve toccare altro.
@@ -20,7 +20,7 @@ checkout **sul tuo dominio** (Stripe Payment Element).
 Sconto bundle attuale: 2 pezzi -10%, 3 o più -15%, su qualsiasi combinazione.
 
 ### Foto da caricare in `img/`
-Foto generate con Higgsfield (GPT Image 2.5) dalle foto fornitore: `anatra-1…6`, `stranger-1…5`, `stitch-1…5`, `sdentato-1…6` (.jpg).
+Foto generate con Higgsfield (GPT Image 2.5) dalle foto fornitore: `anatra-1…6`, `stranger-1…5`, `stitch-1…5`, `sdentato-1…6`, `barbie-1…5` (.jpg).
 anche nel catalogo; la 2-5 vanno nei blocchi descrizione). Finché manca, il sito mostra un riquadro col nome del file.
 
 ---
