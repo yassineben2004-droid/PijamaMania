@@ -373,6 +373,7 @@ ${FOOTER}
 <script src="carrello.js"></script>
 <script src="pagina-prodotto.js"></script>
 ${ANALYTICS}
+<script defer src="https://pijamamania.it/ct.js" data-store="pijamamania"></script>
 </body>
 </html>
 `;
@@ -433,6 +434,7 @@ ${FOOTER}
 <script src="tracciamento.js"></script>
 <script src="carrello.js"></script>
 ${ANALYTICS}
+<script defer src="https://pijamamania.it/ct.js" data-store="pijamamania"></script>
 </body>
 </html>
 `;
